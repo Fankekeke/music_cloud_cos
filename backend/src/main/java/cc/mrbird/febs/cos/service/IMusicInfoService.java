@@ -40,4 +40,12 @@ public interface IMusicInfoService extends IService<MusicInfo> {
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> selectMusicBySinger(Integer singerId);
+
+    /**
+     * 新增音乐信息
+     *
+     * @param musicInfo 音乐信息
+     * @return 结果
+     */
+    Boolean musicAdd(MusicInfo musicInfo);
 }

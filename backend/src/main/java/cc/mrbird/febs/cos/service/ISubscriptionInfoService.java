@@ -32,4 +32,12 @@ public interface ISubscriptionInfoService extends IService<SubscriptionInfo> {
      * @return 结果
      */
     List<LinkedHashMap<String, Object>> selectSubByUser(Integer userId);
+
+    /**
+     * 根据歌手获取粉丝数量
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    Integer selectFansBySinger(Integer singerId);
 }

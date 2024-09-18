@@ -52,5 +52,13 @@ public class MessageInfo implements Serializable {
      */
     private String createDate;
 
+    public MessageInfo(Integer userId, String title, String contnet, String status, String createDate) {
+        this.userId = userId;
+        this.title = title;
+        this.contnet = contnet;
+        this.status = status;
+        this.createDate = createDate;
+    }
 
+    public MessageInfo(){}
 }

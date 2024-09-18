@@ -79,8 +79,7 @@ public class AlbumInfoController {
      */
     @PostMapping
     public R save(AlbumInfo albumInfo) {
-        albumInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        return R.ok(albumInfoService.save(albumInfo));
+        return R.ok(albumInfoService.albumAdd(albumInfo));
     }
 
     /**

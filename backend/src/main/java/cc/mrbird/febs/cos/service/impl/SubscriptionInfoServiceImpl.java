@@ -4,6 +4,7 @@ import cc.mrbird.febs.cos.entity.SubscriptionInfo;
 import cc.mrbird.febs.cos.dao.SubscriptionInfoMapper;
 import cc.mrbird.febs.cos.service.ISubscriptionInfoService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
@@ -40,5 +41,19 @@ public class SubscriptionInfoServiceImpl extends ServiceImpl<SubscriptionInfoMap
     @Override
     public List<LinkedHashMap<String, Object>> selectSubByUser(Integer userId) {
         return baseMapper.selectSubByUser(userId);
+    }
+
+    /**
+     * 根据歌手获取粉丝数量
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    @Override
+    public Integer selectFansBySinger(Integer singerId) {
+        if (singerId == null) {
+            return 0;
+        }
+        return this.count(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getSingerId, singerId));
     }
 }

@@ -89,7 +89,7 @@ public class MusicInfoController {
     @PostMapping
     public R save(MusicInfo musicInfo) {
         musicInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
-        return R.ok(musicInfoService.save(musicInfo));
+        return R.ok(musicInfoService.musicAdd(musicInfo));
     }
 
     /**
