@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 音乐评价 实现层
@@ -28,5 +29,27 @@ public class EvaluateInfoServiceImpl extends ServiceImpl<EvaluateInfoMapper, Eva
     @Override
     public IPage<LinkedHashMap<String, Object>> queryEvaluatePage(Page<EvaluateInfo> page, EvaluateInfo evaluateInfo) {
         return baseMapper.queryEvaluatePage(page, evaluateInfo);
+    }
+
+    /**
+     * 根据音乐ID获取评价信息
+     *
+     * @param musicId 音乐ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> queryEvaluateByMusic(Integer musicId) {
+        return baseMapper.queryEvaluateByMusic(musicId);
+    }
+
+    /**
+     * 根据用户ID获取评价信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> queryEvaluateByUser(Integer userId) {
+        return baseMapper.queryEvaluateByUser(userId);
     }
 }

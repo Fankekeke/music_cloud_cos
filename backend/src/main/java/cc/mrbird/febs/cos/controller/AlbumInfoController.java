@@ -6,6 +6,7 @@ import cc.mrbird.febs.cos.entity.AlbumInfo;
 import cc.mrbird.febs.cos.service.IAlbumInfoService;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.core.util.StrUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,17 @@ public class AlbumInfoController {
     @GetMapping("/page")
     public R page(Page<AlbumInfo> page, AlbumInfo albumInfo) {
         return R.ok(albumInfoService.queryAlbumPage(page, albumInfo));
+    }
+
+    /**
+     * 获取歌手专辑信息
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    @GetMapping("/selectAlbumBySinger")
+    public R selectAlbumBySinger(@RequestParam("singerId") Integer singerId) {
+        return R.ok(albumInfoService.list(Wrappers.<AlbumInfo>lambdaQuery().eq(AlbumInfo::getSingerId, singerId)));
     }
 
     /**

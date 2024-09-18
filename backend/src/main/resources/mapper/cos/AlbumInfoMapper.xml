@@ -2,4 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.AlbumInfoMapper">
 
+    <!-- 分页获取专辑信息 -->
+    <select id="queryAlbumPage" resultType="java.util.LinkedHashMap">
+        select
+        album_info.id,
+        album_info.code,
+        album_info.name,
+        album_info.singer_id,
+        album_info.images,
+        album_info.remark,
+        album_info.create_date,
+        singer_info.code as singerCode,
+        singer_info.name as singerName,
+        singer_info.images as singerImages,
+        singer_info.`identity`
+        from
+        album_info
+        left join singer_info on
+        (singer_info.id = album_info.singer_id)
+        where
+        1 = 1
+        <if test="albumInfo.code != null and albumInfo.code != ''">
+            AND album_info.code LIKE CONCAT('%',#{albumInfo.code},'%')
+        </if>
+        <if test="albumInfo.name != null and albumInfo.name != ''">
+            AND album_info.name LIKE CONCAT('%',#{albumInfo.name},'%')
+        </if>
+        <if test="albumInfo.singerName != null and albumInfo.singerName != ''">
+            AND singer_info.name LIKE CONCAT('%',#{albumInfo.singerName},'%')
+        </if>
+        order by
+        album_info.create_date desc
+    </select>
 </mapper>

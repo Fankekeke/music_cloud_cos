@@ -2,4 +2,50 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.LyricsInfoMapper">
 
+    <!-- 分页获取歌词信息 -->
+    <select id="queryLyricsPage" resultType="java.util.LinkedHashMap">
+        select
+        lyrics_info.id,
+        lyrics_info.music_id,
+        lyrics_info.time_check,
+        lyrics_info.words,
+        music_info.code as musicCode,
+        music_info.name as musicName,
+        music_info.images as musicImages,
+        music_info.file_url,
+        singer_info.code as singerCode,
+        singer_info.name as singerName,
+        singer_info.images as singerImages,
+        singer_info.`identity`,
+        music_type_info.name as typeName,
+        album_info.code as albumCode,
+        album_info.name as albumName,
+        album_info.images as albumImages
+        from
+        lyrics_info
+        left join music_info on
+        (music_info.id = lyrics_info.music_id)
+        left join singer_info on
+        (singer_info.id = music_info.singer_ids)
+        left join music_type_info on
+        (music_type_info.id = music_info.type_id)
+        left join album_info on
+        (album_info.id = music_info.album_id)
+        where
+        1 = 1
+        <if test="lyricsInfo.words != null and lyricsInfo.words != ''">
+            AND lyrics_info.words LIKE CONCAT('%',#{lyricsInfo.words},'%')
+        </if>
+        <if test="lyricsInfo.musicName != null and lyricsInfo.musicName != ''">
+            AND music_info.name LIKE CONCAT('%',#{lyricsInfo.musicName},'%')
+        </if>
+        <if test="lyricsInfo.singerName != null and lyricsInfo.singerName != ''">
+            AND singer_info.name LIKE CONCAT('%',#{lyricsInfo.singerName},'%')
+        </if>
+        <if test="lyricsInfo.albumName != null and lyricsInfo.albumName != ''">
+            AND album_info.name LIKE CONCAT('%',#{lyricsInfo.albumName},'%')
+        </if>
+        order by
+        lyrics_info.music_id desc
+    </select>
 </mapper>

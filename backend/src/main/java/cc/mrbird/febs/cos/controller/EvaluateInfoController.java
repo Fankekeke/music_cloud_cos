@@ -38,6 +38,28 @@ public class EvaluateInfoController {
     }
 
     /**
+     * 根据音乐ID获取评价信息
+     *
+     * @param musicId 音乐ID
+     * @return 结果
+     */
+    @GetMapping("/selectEvaluateByMusic")
+    public R selectEvaluateByMusic(@RequestParam("musicId") Integer musicId) {
+        return R.ok(evaluateInfoService.queryEvaluateByMusic(musicId));
+    }
+
+    /**
+     * 根据用户ID获取评价信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/selectEvaluateByUser")
+    public R selectEvaluateByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(evaluateInfoService.queryEvaluateByUser(userId));
+    }
+
+    /**
      * 查询音乐评价信息详情
      *
      * @param id 主键ID

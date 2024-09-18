@@ -2,4 +2,92 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.MusicPlayRecordMapper">
 
+    <!-- 分页获取音乐信息 -->
+    <select id="queryPlayRecordPage" resultType="java.util.LinkedHashMap">
+        select
+        music_play_record.id,
+        music_play_record.user_id,
+        music_play_record.music_id,
+        music_play_record.create_date,
+        user_info.code as userCode,
+        user_info.name as userName,
+        user_info.images as userImages,
+        music_info.code as musicCode,
+        music_info.name as musicName,
+        music_info.images as musicImages,
+        music_info.file_url,
+        singer_info.code as singerCode,
+        singer_info.name as singerName,
+        singer_info.images as singerImages,
+        singer_info.`identity`,
+        music_type_info.name as typeName,
+        album_info.code as albumCode,
+        album_info.name as albumName,
+        album_info.images as albumImages
+        from
+        music_play_record
+        left join user_info on
+        (user_info.id = music_play_record.user_id)
+        left join music_info on
+        (music_info.id = music_play_record.music_id)
+        left join singer_info on
+        (singer_info.id = music_info.singer_ids)
+        left join music_type_info on
+        (music_type_info.id = music_info.type_id)
+        left join album_info on
+        (album_info.id = music_info.album_id)
+        where
+        1 = 1
+        <if test="musicInfo.userName != null and musicInfo.userName != ''">
+            AND user_info.name LIKE CONCAT('%',#{musicInfo.userName},'%')
+        </if>
+        <if test="musicInfo.musicName != null and musicInfo.musicName != ''">
+            AND music_info.name LIKE CONCAT('%',#{musicInfo.musicName},'%')
+        </if>
+        <if test="musicInfo.singerName != null and musicInfo.singerName != ''">
+            AND singer_info.name LIKE CONCAT('%',#{musicInfo.singerName},'%')
+        </if>
+        <if test="musicInfo.albumName != null and musicInfo.albumName != ''">
+            AND album_info.name LIKE CONCAT('%',#{musicInfo.albumName},'%')
+        </if>
+        order by
+        music_play_record.create_date desc
+    </select>
+
+    <!-- 获取用户播放记录 -->
+    <select id="selectRecordByUser" resultType="java.util.LinkedHashMap">
+        select music_play_record.id,
+               music_play_record.user_id,
+               music_play_record.music_id,
+               music_play_record.create_date,
+               user_info.code       as userCode,
+               user_info.name       as userName,
+               user_info.images     as userImages,
+               music_info.code      as musicCode,
+               music_info.name      as musicName,
+               music_info.images    as musicImages,
+               music_info.file_url,
+               singer_info.code     as singerCode,
+               singer_info.name     as singerName,
+               singer_info.images   as singerImages,
+               singer_info.`identity`,
+               music_type_info.name as typeName,
+               album_info.code      as albumCode,
+               album_info.name      as albumName,
+               album_info.images    as albumImages
+        from music_play_record
+                 left join user_info on
+            (user_info.id = music_play_record.user_id)
+                 left join music_info on
+            (music_info.id = music_play_record.music_id)
+                 left join singer_info on
+            (singer_info.id = music_info.singer_ids)
+                 left join music_type_info on
+            (music_type_info.id = music_info.type_id)
+                 left join album_info on
+            (album_info.id = music_info.album_id)
+        where 1 = 1
+          AND music_play_record.user_id = #{userId}
+        order by music_play_record.create_date desc
+    </select>
 </mapper>

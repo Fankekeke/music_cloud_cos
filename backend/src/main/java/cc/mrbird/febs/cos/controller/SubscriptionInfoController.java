@@ -49,6 +49,17 @@ public class SubscriptionInfoController {
     }
 
     /**
+     * 根据用户获取关注歌手
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/selectSubByUser")
+    public R selectSubByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(subscriptionInfoService.selectSubByUser(userId));
+    }
+
+    /**
      * 查询歌手关注信息列表
      *
      * @return 结果

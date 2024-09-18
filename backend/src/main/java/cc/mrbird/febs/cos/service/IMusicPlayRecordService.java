@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 音乐播放记录 service层
@@ -23,5 +24,13 @@ public interface IMusicPlayRecordService extends IService<MusicPlayRecord> {
      * @param musicInfo 音乐信息
      * @return 结果
      */
-    IPage<LinkedHashMap<String, Object>> queryPlayRecordPage(Page<MusicInfo> page, MusicInfo musicInfo);
+    IPage<LinkedHashMap<String, Object>> queryPlayRecordPage(Page<MusicPlayRecord> page, MusicPlayRecord musicInfo);
+
+    /**
+     * 获取用户播放记录
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectRecordByUser(@Param("userId") Integer userId);
 }

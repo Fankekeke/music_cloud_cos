@@ -2,4 +2,58 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cc.mrbird.febs.cos.dao.SubscriptionInfoMapper">
 
+    <!-- 分页获取歌手关注信息 -->
+    <select id="querySubPage" resultType="java.util.LinkedHashMap">
+        select
+        subscription_info.id,
+        subscription_info.user_id,
+        subscription_info.singer_id,
+        subscription_info.create_date,
+        user_info.code as userCode,
+        user_info.name as userName,
+        user_info.images as userImages,
+        singer_info.code as singerCode,
+        singer_info.name as singerName,
+        singer_info.images as singerImages,
+        singer_info.`identity`
+        from
+        subscription_info
+        left join user_info on
+        (user_info.id = subscription_info.user_id)
+        left join singer_info on
+        (singer_info.id = subscription_info.singer_id)
+        where
+        1 = 1
+        <if test="singerInfo.userName != null and singerInfo.userName != ''">
+            AND user_info.name LIKE CONCAT('%',#{singerInfo.userName},'%')
+        </if>
+        <if test="singerInfo.singerName != null and singerInfo.singerName != ''">
+            AND singer_info.name LIKE CONCAT('%',#{singerInfo.singerName},'%')
+        </if>
+        order by
+        subscription_info.create_date desc
+    </select>
+
+    <!-- 根据用户获取关注歌手 -->
+    <select id="selectSubByUser" resultType="java.util.LinkedHashMap">
+        select subscription_info.id,
+               subscription_info.user_id,
+               subscription_info.singer_id,
+               subscription_info.create_date,
+               user_info.code     as userCode,
+               user_info.name     as userName,
+               user_info.images   as userImages,
+               singer_info.code   as singerCode,
+               singer_info.name   as singerName,
+               singer_info.images as singerImages,
+               singer_info.`identity`
+        from subscription_info
+                 left join user_info on
+            (user_info.id = subscription_info.user_id)
+                 left join singer_info on
+            (singer_info.id = subscription_info.singer_id)
+        where 1 = 1
+          AND subscription_info.user_id = #{userId}
+        order by subscription_info.create_date desc
+    </select>
 </mapper>

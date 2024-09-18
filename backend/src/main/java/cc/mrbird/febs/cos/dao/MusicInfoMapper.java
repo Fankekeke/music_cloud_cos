@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 音乐管理 mapper层
@@ -23,4 +24,20 @@ public interface MusicInfoMapper extends BaseMapper<MusicInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> queryMusicPage(Page<MusicInfo> page, @Param("musicInfo") MusicInfo musicInfo);
+
+    /**
+     * 根据专辑获取收录歌曲
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectMusicByAlbum(@Param("albumId") Integer albumId);
+
+    /**
+     * 根据歌手获取收录歌曲
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectMusicBySinger(@Param("singerId") Integer singerId);
 }

@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.LyricsInfo;
 import cc.mrbird.febs.cos.service.ILyricsInfoService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,24 @@ public class LyricsInfoController {
     /**
      * 分页获取歌词信息
      *
-     * @param page         分页对象
+     * @param page       分页对象
      * @param lyricsInfo 歌词信息
      * @return 结果
      */
     @GetMapping("/page")
     public R page(Page<LyricsInfo> page, LyricsInfo lyricsInfo) {
         return R.ok(lyricsInfoService.queryLyricsPage(page, lyricsInfo));
+    }
+
+    /**
+     * 获取音乐歌词
+     *
+     * @param musicId 音乐ID
+     * @return 结果
+     */
+    @GetMapping("/queryLyricsByMusic")
+    public R queryLyricsByMusic(@RequestParam("musicId") Integer musicId) {
+        return R.ok(lyricsInfoService.list(Wrappers.<LyricsInfo>lambdaQuery().eq(LyricsInfo::getMusicId, musicId)));
     }
 
     /**

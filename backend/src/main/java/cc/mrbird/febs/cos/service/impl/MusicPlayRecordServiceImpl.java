@@ -10,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 音乐播放记录 实现层
@@ -27,7 +28,18 @@ public class MusicPlayRecordServiceImpl extends ServiceImpl<MusicPlayRecordMappe
      * @return 结果
      */
     @Override
-    public IPage<LinkedHashMap<String, Object>> queryPlayRecordPage(Page<MusicInfo> page, MusicInfo musicInfo) {
+    public IPage<LinkedHashMap<String, Object>> queryPlayRecordPage(Page<MusicPlayRecord> page, MusicPlayRecord musicInfo) {
         return baseMapper.queryPlayRecordPage(page, musicInfo);
+    }
+
+    /**
+     * 获取用户播放记录
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> selectRecordByUser(Integer userId) {
+        return baseMapper.selectRecordByUser(userId);
     }
 }

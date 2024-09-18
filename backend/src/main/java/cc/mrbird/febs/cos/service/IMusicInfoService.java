@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 音乐管理 service层
@@ -23,4 +24,20 @@ public interface IMusicInfoService extends IService<MusicInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> queryMusicPage(Page<MusicInfo> page, MusicInfo musicInfo);
+
+    /**
+     * 根据专辑获取收录歌曲
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectMusicByAlbum(Integer albumId);
+
+    /**
+     * 根据歌手获取收录歌曲
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectMusicBySinger(Integer singerId);
 }

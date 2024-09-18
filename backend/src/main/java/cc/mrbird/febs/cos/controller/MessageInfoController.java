@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.MessageInfo;
 import cc.mrbird.febs.cos.service.IMessageInfoService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,17 @@ public class MessageInfoController {
     @GetMapping("/page")
     public R page(Page<MessageInfo> page, MessageInfo messageInfo) {
         return R.ok(messageInfoService.queryMessagePage(page, messageInfo));
+    }
+
+    /**
+     * 获取用户消息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/selectMessageByUser")
+    public R selectMessageByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(messageInfoService.list(Wrappers.<MessageInfo>lambdaQuery().eq(MessageInfo::getUserId, userId)));
     }
 
     /**

@@ -38,6 +38,17 @@ public class CollectInfoController {
     }
 
     /**
+     * 获取用户收藏歌曲
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/selectCollectByUserId")
+    public R selectCollectByUserId(@RequestParam("userId") Integer userId) {
+        return R.ok(collectInfoService.queryCollectByUserId(userId));
+    }
+
+    /**
      * 查询用户音乐收藏信息详情
      *
      * @param id 主键ID

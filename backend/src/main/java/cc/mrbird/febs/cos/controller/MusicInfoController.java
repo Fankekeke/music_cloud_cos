@@ -38,6 +38,28 @@ public class MusicInfoController {
     }
 
     /**
+     * 根据专辑获取收录歌曲
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    @GetMapping("/selectMusicByAlbum")
+    public R selectMusicByAlbum(@RequestParam("albumId") Integer albumId) {
+        return R.ok(musicInfoService.selectMusicByAlbum(albumId));
+    }
+
+    /**
+     * 根据歌手获取收录歌曲
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    @GetMapping("/selectMusicBySinger")
+    public R selectMusicBySinger(@RequestParam("singerId") Integer singerId) {
+        return R.ok(musicInfoService.selectMusicBySinger(singerId));
+    }
+
+    /**
      * 查询音乐信息详情
      *
      * @param id 主键ID

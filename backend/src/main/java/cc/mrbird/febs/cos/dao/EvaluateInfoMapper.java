@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 音乐评价 mapper层
@@ -23,4 +24,20 @@ public interface EvaluateInfoMapper extends BaseMapper<EvaluateInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> queryEvaluatePage(Page<EvaluateInfo> page, @Param("evaluateInfo") EvaluateInfo evaluateInfo);
+
+    /**
+     * 根据音乐ID获取评价信息
+     *
+     * @param musicId 音乐ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryEvaluateByMusic(@Param("musicId") Integer musicId);
+
+    /**
+     * 根据用户ID获取评价信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryEvaluateByUser(@Param("userId") Integer userId);
 }

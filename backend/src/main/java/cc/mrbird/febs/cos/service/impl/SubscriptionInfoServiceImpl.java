@@ -9,6 +9,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 
 /**
  * 歌手关注 实现层
@@ -28,5 +29,16 @@ public class SubscriptionInfoServiceImpl extends ServiceImpl<SubscriptionInfoMap
     @Override
     public IPage<LinkedHashMap<String, Object>> querySubPage(Page<SubscriptionInfo> page, SubscriptionInfo subscriptionInfo) {
         return baseMapper.querySubPage(page, subscriptionInfo);
+    }
+
+    /**
+     * 根据用户获取关注歌手
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @Override
+    public List<LinkedHashMap<String, Object>> selectSubByUser(Integer userId) {
+        return baseMapper.selectSubByUser(userId);
     }
 }
