@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.CollectInfo;
 import cc.mrbird.febs.cos.service.ICollectInfoService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +36,18 @@ public class CollectInfoController {
     @GetMapping("/page")
     public R page(Page<CollectInfo> page, CollectInfo collectInfo) {
         return R.ok(collectInfoService.queryCollectPage(page, collectInfo));
+    }
+
+    /**
+     * 删除用户音乐收藏信息
+     *
+     * @param collectInfo 用户音乐收藏信息
+     * @return 结果
+     */
+    @GetMapping("/removeLike")
+    public R removeLike(CollectInfo collectInfo) {
+        return R.ok(collectInfoService.remove(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getUserId, collectInfo.getUserId())
+                .eq(CollectInfo::getMusicId, collectInfo.getMusicId())));
     }
 
     /**

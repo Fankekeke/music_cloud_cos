@@ -5,6 +5,7 @@ import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.SubscriptionInfo;
 import cc.mrbird.febs.cos.service.ISubscriptionInfoService;
 import cn.hutool.core.date.DateUtil;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 歌手关注 控制层
@@ -60,6 +62,18 @@ public class SubscriptionInfoController {
     }
 
     /**
+     * 根据获取关注歌手Id
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/selectSubSingerIdByUser")
+    public R selectSubSingerIdByUser(@RequestParam("userId") Integer userId) {
+        List<SubscriptionInfo> subscriptionList = subscriptionInfoService.list(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, userId));
+        return R.ok(subscriptionList.stream().map(SubscriptionInfo::getSingerId).distinct().collect(Collectors.toList()));
+    }
+
+    /**
      * 查询歌手关注信息列表
      *
      * @return 结果
@@ -67,6 +81,18 @@ public class SubscriptionInfoController {
     @GetMapping("/list")
     public R list() {
         return R.ok(subscriptionInfoService.list());
+    }
+
+    /**
+     * 删除歌手关注信息
+     *
+     * @param subscriptionInfo 歌手关注信息
+     * @return 结果
+     */
+    @PostMapping("/deleteByUser")
+    public R deleteByUser(SubscriptionInfo subscriptionInfo) {
+        return R.ok(subscriptionInfoService.remove(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, subscriptionInfo.getUserId())
+                .eq(SubscriptionInfo::getSingerId, subscriptionInfo.getSingerId())));
     }
 
     /**
