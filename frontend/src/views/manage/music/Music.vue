@@ -7,18 +7,26 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="标题"
+                label="歌曲名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.title"/>
+                <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="内容"
+                label="所属歌手"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.content"/>
+                <a-input v-model="queryParams.singerName"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="所属专辑"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.albumName"/>
               </a-form-item>
             </a-col>
           </div>
@@ -71,39 +79,39 @@
         </template>
       </a-table>
     </div>
-    <bulletin-add
-      v-if="bulletinAdd.visiable"
-      @close="handleBulletinAddClose"
-      @success="handleBulletinAddSuccess"
-      :bulletinAddVisiable="bulletinAdd.visiable">
-    </bulletin-add>
-    <bulletin-edit
-      ref="bulletinEdit"
-      @close="handleBulletinEditClose"
-      @success="handleBulletinEditSuccess"
-      :bulletinEditVisiable="bulletinEdit.visiable">
-    </bulletin-edit>
+    <music-add
+      v-if="musicAdd.visiable"
+      @close="handlemusicAddClose"
+      @success="handlemusicAddSuccess"
+      :musicAddVisiable="musicAdd.visiable">
+    </music-add>
+    <music-edit
+      ref="musicEdit"
+      @close="handlemusicEditClose"
+      @success="handlemusicEditSuccess"
+      :musicEditVisiable="musicEdit.visiable">
+    </music-edit>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import BulletinAdd from './MusicAdd.vue'
-import BulletinEdit from './MusicEdit.vue'
+import musicAdd from './MusicAdd.vue'
+import musicEdit from './MusicEdit.vue'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
-  name: 'Bulletin',
-  components: {BulletinAdd, BulletinEdit, RangeDate},
+  name: 'music',
+  components: {musicAdd, musicEdit, RangeDate},
   data () {
     return {
       advanced: false,
-      bulletinAdd: {
+      musicAdd: {
         visiable: false
       },
-      bulletinEdit: {
+      musicEdit: {
         visiable: false
       },
       queryParams: {},
@@ -130,33 +138,72 @@ export default {
     }),
     columns () {
       return [{
-        title: '标题',
-        dataIndex: 'title',
+        title: '歌曲编号',
+        dataIndex: 'code',
         ellipsis: true
       }, {
-        title: '公告内容',
-        dataIndex: 'content',
+        title: '歌曲名称',
+        dataIndex: 'name',
+        ellipsis: true
+      }, {
+        title: '总时长',
+        dataIndex: 'totalTime',
+        ellipsis: true
+      }, {
+        title: '歌曲封面',
+        dataIndex: 'images',
+        customRender: (text, record, index) => {
+          if (!record.images) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+          </a-popover>
+        }
+      }, {
+        title: '歌曲标签',
+        dataIndex: 'tag',
         ellipsis: true
       }, {
         title: '发布时间',
         dataIndex: 'createDate',
         ellipsis: true
       }, {
-        title: '公告状态',
-        dataIndex: 'rackUp',
+        title: '歌手名称',
+        dataIndex: 'singerName',
         customRender: (text, row, index) => {
-          switch (text) {
-            case 0:
-              return <a-tag>下架</a-tag>
-            case 1:
-              return <a-tag>已发布</a-tag>
-            default:
-              return '- -'
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
           }
         }
       }, {
-        title: '上传人',
-        dataIndex: 'publisher',
+        title: '歌手图片',
+        dataIndex: 'singerImages',
+        customRender: (text, record, index) => {
+          if (!record.singerImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+          </a-popover>
+        }
+      }, {
+        title: '所属专辑',
+        dataIndex: 'albumName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '音乐类型',
+        dataIndex: 'typeName',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -182,26 +229,26 @@ export default {
       this.advanced = !this.advanced
     },
     add () {
-      this.bulletinAdd.visiable = true
+      this.musicAdd.visiable = true
     },
-    handleBulletinAddClose () {
-      this.bulletinAdd.visiable = false
+    handlemusicAddClose () {
+      this.musicAdd.visiable = false
     },
-    handleBulletinAddSuccess () {
-      this.bulletinAdd.visiable = false
-      this.$message.success('新增公告成功')
+    handlemusicAddSuccess () {
+      this.musicAdd.visiable = false
+      this.$message.success('新增歌曲成功')
       this.search()
     },
     edit (record) {
-      this.$refs.bulletinEdit.setFormValues(record)
-      this.bulletinEdit.visiable = true
+      this.$refs.musicEdit.setFormValues(record)
+      this.musicEdit.visiable = true
     },
-    handleBulletinEditClose () {
-      this.bulletinEdit.visiable = false
+    handlemusicEditClose () {
+      this.musicEdit.visiable = false
     },
-    handleBulletinEditSuccess () {
-      this.bulletinEdit.visiable = false
-      this.$message.success('修改公告成功')
+    handlemusicEditSuccess () {
+      this.musicEdit.visiable = false
+      this.$message.success('修改歌曲成功')
       this.search()
     },
     handleDeptChange (value) {
@@ -219,7 +266,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/bulletin-info/' + ids).then(() => {
+          that.$delete('/cos/music-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -289,7 +336,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      this.$get('/cos/bulletin-info/page', {
+      this.$get('/cos/music-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

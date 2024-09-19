@@ -7,18 +7,26 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="标题"
+                label="专辑编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.title"/>
+                <a-input v-model="queryParams.code"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="内容"
+                label="专辑名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.content"/>
+                <a-input v-model="queryParams.name"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="歌手名称"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.singerName"/>
               </a-form-item>
             </a-col>
           </div>
@@ -71,39 +79,39 @@
         </template>
       </a-table>
     </div>
-    <bulletin-add
-      v-if="bulletinAdd.visiable"
-      @close="handleBulletinAddClose"
-      @success="handleBulletinAddSuccess"
-      :bulletinAddVisiable="bulletinAdd.visiable">
-    </bulletin-add>
-    <bulletin-edit
-      ref="bulletinEdit"
-      @close="handleBulletinEditClose"
-      @success="handleBulletinEditSuccess"
-      :bulletinEditVisiable="bulletinEdit.visiable">
-    </bulletin-edit>
+    <album-add
+      v-if="albumAdd.visiable"
+      @close="handlealbumAddClose"
+      @success="handlealbumAddSuccess"
+      :albumAddVisiable="albumAdd.visiable">
+    </album-add>
+    <album-edit
+      ref="albumEdit"
+      @close="handlealbumEditClose"
+      @success="handlealbumEditSuccess"
+      :albumEditVisiable="albumEdit.visiable">
+    </album-edit>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import BulletinAdd from './AlbumAdd.vue'
-import BulletinEdit from './AlbumEdit.vue'
+import albumAdd from './AlbumAdd.vue'
+import albumEdit from './AlbumEdit.vue'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
-  name: 'Bulletin',
-  components: {BulletinAdd, BulletinEdit, RangeDate},
+  name: 'album',
+  components: {albumAdd, albumEdit, RangeDate},
   data () {
     return {
       advanced: false,
-      bulletinAdd: {
+      albumAdd: {
         visiable: false
       },
-      bulletinEdit: {
+      albumEdit: {
         visiable: false
       },
       queryParams: {},
@@ -130,33 +138,28 @@ export default {
     }),
     columns () {
       return [{
-        title: '标题',
-        dataIndex: 'title',
+        title: '专辑编号',
+        dataIndex: 'code',
         ellipsis: true
       }, {
-        title: '公告内容',
-        dataIndex: 'content',
+        title: '专辑名称',
+        dataIndex: 'name',
         ellipsis: true
       }, {
-        title: '发布时间',
-        dataIndex: 'createDate',
-        ellipsis: true
-      }, {
-        title: '公告状态',
-        dataIndex: 'rackUp',
-        customRender: (text, row, index) => {
-          switch (text) {
-            case 0:
-              return <a-tag>下架</a-tag>
-            case 1:
-              return <a-tag>已发布</a-tag>
-            default:
-              return '- -'
-          }
+        title: '专辑图片',
+        dataIndex: 'images',
+        customRender: (text, record, index) => {
+          if (!record.images) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+          </a-popover>
         }
       }, {
-        title: '上传人',
-        dataIndex: 'publisher',
+        title: '备注',
+        dataIndex: 'remark',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -165,6 +168,42 @@ export default {
           }
         }
       }, {
+        title: '歌手',
+        dataIndex: 'singerName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '头像',
+        dataIndex: 'singerImages',
+        customRender: (text, record, index) => {
+          if (!record.singerImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+          </a-popover>
+        }
+      }, {
+        title: '歌手身份',
+        dataIndex: 'identity',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '发布时间',
+        dataIndex: 'createDate',
+        ellipsis: true
+      },  {
         title: '操作',
         dataIndex: 'operation',
         scopedSlots: {customRender: 'operation'}
@@ -182,26 +221,26 @@ export default {
       this.advanced = !this.advanced
     },
     add () {
-      this.bulletinAdd.visiable = true
+      this.albumAdd.visiable = true
     },
-    handleBulletinAddClose () {
-      this.bulletinAdd.visiable = false
+    handlealbumAddClose () {
+      this.albumAdd.visiable = false
     },
-    handleBulletinAddSuccess () {
-      this.bulletinAdd.visiable = false
-      this.$message.success('新增公告成功')
+    handlealbumAddSuccess () {
+      this.albumAdd.visiable = false
+      this.$message.success('新增专辑成功')
       this.search()
     },
     edit (record) {
-      this.$refs.bulletinEdit.setFormValues(record)
-      this.bulletinEdit.visiable = true
+      this.$refs.albumEdit.setFormValues(record)
+      this.albumEdit.visiable = true
     },
-    handleBulletinEditClose () {
-      this.bulletinEdit.visiable = false
+    handlealbumEditClose () {
+      this.albumEdit.visiable = false
     },
-    handleBulletinEditSuccess () {
-      this.bulletinEdit.visiable = false
-      this.$message.success('修改公告成功')
+    handlealbumEditSuccess () {
+      this.albumEdit.visiable = false
+      this.$message.success('修改专辑成功')
       this.search()
     },
     handleDeptChange (value) {
@@ -219,7 +258,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/bulletin-info/' + ids).then(() => {
+          that.$delete('/cos/album-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -289,7 +328,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      this.$get('/cos/bulletin-info/page', {
+      this.$get('/cos/album-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

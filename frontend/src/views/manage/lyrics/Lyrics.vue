@@ -7,18 +7,34 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="标题"
+                label="歌 词"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.title"/>
+                <a-input v-model="queryParams.words"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="内容"
+                label="歌曲名称"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.content"/>
+                <a-input v-model="queryParams.musicName"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="歌手姓名"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.singerName"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="所属专辑"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.albumName"/>
               </a-form-item>
             </a-col>
           </div>
@@ -71,39 +87,39 @@
         </template>
       </a-table>
     </div>
-    <bulletin-add
-      v-if="bulletinAdd.visiable"
-      @close="handleBulletinAddClose"
-      @success="handleBulletinAddSuccess"
-      :bulletinAddVisiable="bulletinAdd.visiable">
-    </bulletin-add>
-    <bulletin-edit
-      ref="bulletinEdit"
-      @close="handleBulletinEditClose"
-      @success="handleBulletinEditSuccess"
-      :bulletinEditVisiable="bulletinEdit.visiable">
-    </bulletin-edit>
+    <lyrics-add
+      v-if="lyricsAdd.visiable"
+      @close="handlelyricsAddClose"
+      @success="handlelyricsAddSuccess"
+      :lyricsAddVisiable="lyricsAdd.visiable">
+    </lyrics-add>
+    <lyrics-edit
+      ref="lyricsEdit"
+      @close="handlelyricsEditClose"
+      @success="handlelyricsEditSuccess"
+      :lyricsEditVisiable="lyricsEdit.visiable">
+    </lyrics-edit>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import BulletinAdd from './LyricsAdd.vue'
-import BulletinEdit from './LyricsEdit.vue'
+import lyricsAdd from './LyricsAdd.vue'
+import lyricsEdit from './LyricsEdit.vue'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
-  name: 'Bulletin',
-  components: {BulletinAdd, BulletinEdit, RangeDate},
+  name: 'lyrics',
+  components: {lyricsAdd, lyricsEdit, RangeDate},
   data () {
     return {
       advanced: false,
-      bulletinAdd: {
+      lyricsAdd: {
         visiable: false
       },
-      bulletinEdit: {
+      lyricsEdit: {
         visiable: false
       },
       queryParams: {},
@@ -130,33 +146,8 @@ export default {
     }),
     columns () {
       return [{
-        title: '标题',
-        dataIndex: 'title',
-        ellipsis: true
-      }, {
-        title: '公告内容',
-        dataIndex: 'content',
-        ellipsis: true
-      }, {
-        title: '发布时间',
-        dataIndex: 'createDate',
-        ellipsis: true
-      }, {
-        title: '公告状态',
-        dataIndex: 'rackUp',
-        customRender: (text, row, index) => {
-          switch (text) {
-            case 0:
-              return <a-tag>下架</a-tag>
-            case 1:
-              return <a-tag>已发布</a-tag>
-            default:
-              return '- -'
-          }
-        }
-      }, {
-        title: '上传人',
-        dataIndex: 'publisher',
+        title: '时常',
+        dataIndex: 'timeCheck',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -165,9 +156,82 @@ export default {
           }
         }
       }, {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: {customRender: 'operation'}
+        title: '歌词',
+        dataIndex: 'words',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '所属歌曲',
+        dataIndex: 'musicName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '歌曲封面',
+        dataIndex: 'musicImages',
+        customRender: (text, record, index) => {
+          if (!record.musicImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.musicImages } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.musicImages } />
+          </a-popover>
+        }
+      }, {
+        title: '歌手名称',
+        dataIndex: 'singerName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '歌手图片',
+        dataIndex: 'singerImages',
+        customRender: (text, record, index) => {
+          if (!record.singerImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+          </a-popover>
+        }
+      }, {
+        title: '所属专辑',
+        dataIndex: 'albumName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '音乐类型',
+        dataIndex: 'typeName',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '创建时间',
+        dataIndex: 'createDate'
       }]
     }
   },
@@ -182,26 +246,26 @@ export default {
       this.advanced = !this.advanced
     },
     add () {
-      this.bulletinAdd.visiable = true
+      this.lyricsAdd.visiable = true
     },
-    handleBulletinAddClose () {
-      this.bulletinAdd.visiable = false
+    handlelyricsAddClose () {
+      this.lyricsAdd.visiable = false
     },
-    handleBulletinAddSuccess () {
-      this.bulletinAdd.visiable = false
-      this.$message.success('新增公告成功')
+    handlelyricsAddSuccess () {
+      this.lyricsAdd.visiable = false
+      this.$message.success('新增歌词成功')
       this.search()
     },
     edit (record) {
-      this.$refs.bulletinEdit.setFormValues(record)
-      this.bulletinEdit.visiable = true
+      this.$refs.lyricsEdit.setFormValues(record)
+      this.lyricsEdit.visiable = true
     },
-    handleBulletinEditClose () {
-      this.bulletinEdit.visiable = false
+    handlelyricsEditClose () {
+      this.lyricsEdit.visiable = false
     },
-    handleBulletinEditSuccess () {
-      this.bulletinEdit.visiable = false
-      this.$message.success('修改公告成功')
+    handlelyricsEditSuccess () {
+      this.lyricsEdit.visiable = false
+      this.$message.success('修改歌词成功')
       this.search()
     },
     handleDeptChange (value) {
@@ -219,7 +283,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/bulletin-info/' + ids).then(() => {
+          that.$delete('/cos/lyrics-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -289,7 +353,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      this.$get('/cos/bulletin-info/page', {
+      this.$get('/cos/lyrics-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data

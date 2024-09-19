@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="修改公告" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="修改歌曲类型" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -11,7 +11,7 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='公告标题' v-bind="formItemLayout">
+          <a-form-item label='歌曲类型标题' v-bind="formItemLayout">
             <a-input v-decorator="[
             'title',
             { rules: [{ required: true, message: '请输入名称!' }] }
@@ -27,10 +27,10 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='公告状态' v-bind="formItemLayout">
+          <a-form-item label='歌曲类型状态' v-bind="formItemLayout">
             <a-select v-decorator="[
               'rackUp',
-              { rules: [{ required: true, message: '请输入公告状态!' }] }
+              { rules: [{ required: true, message: '请输入歌曲类型状态!' }] }
               ]">
               <a-select-option value="0">下架</a-select-option>
               <a-select-option value="1">已发布</a-select-option>
@@ -38,7 +38,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='公告内容' v-bind="formItemLayout">
+          <a-form-item label='歌曲类型内容' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'content',
              { rules: [{ required: true, message: '请输入名称!' }] }
@@ -87,9 +87,9 @@ const formItemLayout = {
   wrapperCol: { span: 24 }
 }
 export default {
-  name: 'BulletinEdit',
+  name: 'typeEdit',
   props: {
-    bulletinEditVisiable: {
+    typeEditVisiable: {
       default: false
     }
   },
@@ -99,7 +99,7 @@ export default {
     }),
     show: {
       get: function () {
-        return this.bulletinEditVisiable
+        return this.typeEditVisiable
       },
       set: function () {
       }
@@ -139,21 +139,21 @@ export default {
         this.fileList = imageList
       }
     },
-    setFormValues ({...bulletin}) {
-      this.rowId = bulletin.id
+    setFormValues ({...type}) {
+      this.rowId = type.id
       let fields = ['title', 'content', 'publisher', 'rackUp']
       let obj = {}
-      Object.keys(bulletin).forEach((key) => {
+      Object.keys(type).forEach((key) => {
         if (key === 'images') {
           this.fileList = []
-          this.imagesInit(bulletin['images'])
+          this.imagesInit(type['images'])
         }
         if (key === 'rackUp') {
-          bulletin[key] = bulletin[key].toString()
+          type[key] = type[key].toString()
         }
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
-          obj[key] = bulletin[key]
+          obj[key] = type[key]
         }
       })
       this.form.setFieldsValue(obj)
@@ -181,7 +181,7 @@ export default {
         values.images = images.length > 0 ? images.join(',') : null
         if (!err) {
           this.loading = true
-          this.$put('/cos/bulletin-info', {
+          this.$put('/cos/type-info', {
             ...values
           }).then((r) => {
             this.reset()

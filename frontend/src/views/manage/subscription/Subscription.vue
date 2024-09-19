@@ -7,21 +7,18 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="用户昵称"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.username"/>
+                label="用户名称"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.userName"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="消息状态"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-select v-model="queryParams.readStatus" allowClear>
-                  <a-select-option value="0">未读</a-select-option>
-                  <a-select-option value="1">已读</a-select-option>
-                </a-select>
+                label="歌手姓名"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.singerName"/>
               </a-form-item>
             </a-col>
           </div>
@@ -114,42 +111,47 @@ export default {
     }),
     columns () {
       return [{
-        title: '消息ID',
-        dataIndex: 'id'
+        title: '用户编号',
+        dataIndex: 'userCode'
       }, {
-        title: '用户昵称',
-        dataIndex: 'username'
+        title: '用户名称',
+        dataIndex: 'userName'
       }, {
         title: '头像',
-        dataIndex: 'images',
+        dataIndex: 'userImages',
         customRender: (text, record, index) => {
-          if (!record.images) return <a-avatar shape="square" icon="user" />
+          if (!record.userImages) return <a-avatar shape="square" icon="user" />
           return <a-popover>
             <template slot="content">
-              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.userImages } />
             </template>
-            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.userImages } />
           </a-popover>
         }
       }, {
-        title: '消息状态',
-        dataIndex: 'readStatus',
+        title: '歌手名称',
+        dataIndex: 'singerName',
         customRender: (text, row, index) => {
-          switch (text) {
-            case 0:
-              return <a-tag>未读</a-tag>
-            case 1:
-              return <a-tag color="blue">已读</a-tag>
-            default:
-              return '- -'
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
           }
         }
       }, {
-        title: '消息内容',
-        dataIndex: 'content',
-        scopedSlots: {customRender: 'contentShow'}
+        title: '歌手图片',
+        dataIndex: 'singerImages',
+        customRender: (text, record, index) => {
+          if (!record.singerImages) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.singerImages } />
+          </a-popover>
+        }
       }, {
-        title: '发送时间',
+        title: '关注时间',
         dataIndex: 'createDate'
       }]
     }

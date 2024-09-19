@@ -1,5 +1,5 @@
 <template>
-  <a-modal v-model="show" title="新增公告" @cancel="onClose" :width="800">
+  <a-modal v-model="show" title="新增歌曲" @cancel="onClose" :width="800">
     <template slot="footer">
       <a-button key="back" @click="onClose">
         取消
@@ -11,7 +11,7 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='公告标题' v-bind="formItemLayout">
+          <a-form-item label='歌曲标题' v-bind="formItemLayout">
             <a-input v-decorator="[
             'title',
             { rules: [{ required: true, message: '请输入名称!' }] }
@@ -27,10 +27,10 @@
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='公告状态' v-bind="formItemLayout">
+          <a-form-item label='歌曲状态' v-bind="formItemLayout">
             <a-select v-decorator="[
               'rackUp',
-              { rules: [{ required: true, message: '请输入公告状态!' }] }
+              { rules: [{ required: true, message: '请输入歌曲状态!' }] }
               ]">
               <a-select-option value="0">下架</a-select-option>
               <a-select-option value="1">已发布</a-select-option>
@@ -38,7 +38,7 @@
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='公告内容' v-bind="formItemLayout">
+          <a-form-item label='歌曲内容' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'content',
              { rules: [{ required: true, message: '请输入名称!' }] }
@@ -87,9 +87,9 @@ const formItemLayout = {
   wrapperCol: { span: 24 }
 }
 export default {
-  name: 'BulletinAdd',
+  name: 'musicAdd',
   props: {
-    bulletinAddVisiable: {
+    musicAddVisiable: {
       default: false
     }
   },
@@ -99,7 +99,7 @@ export default {
     }),
     show: {
       get: function () {
-        return this.bulletinAddVisiable
+        return this.musicAddVisiable
       },
       set: function () {
       }
@@ -147,7 +147,7 @@ export default {
         values.images = images.length > 0 ? images.join(',') : null
         if (!err) {
           this.loading = true
-          this.$post('/cos/bulletin-info', {
+          this.$post('/cos/music-info', {
             ...values
           }).then((r) => {
             this.reset()

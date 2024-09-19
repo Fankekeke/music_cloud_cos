@@ -7,21 +7,26 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="用户昵称"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-input v-model="queryParams.username"/>
+                label="用户名称"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.userName"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="消息状态"
-                :labelCol="{span: 4}"
-                :wrapperCol="{span: 18, offset: 2}">
-                <a-select v-model="queryParams.readStatus" allowClear>
-                  <a-select-option value="0">未读</a-select-option>
-                  <a-select-option value="1">已读</a-select-option>
-                </a-select>
+                label="消息内容"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.contnet"/>
+              </a-form-item>
+            </a-col>
+            <a-col :md="6" :sm="24">
+              <a-form-item
+                label="消息标题"
+                :labelCol="{span: 5}"
+                :wrapperCol="{span: 18, offset: 1}">
+                <a-input v-model="queryParams.title"/>
               </a-form-item>
             </a-col>
           </div>
@@ -114,11 +119,11 @@ export default {
     }),
     columns () {
       return [{
-        title: '消息ID',
-        dataIndex: 'id'
+        title: '用户编号',
+        dataIndex: 'userCode'
       }, {
-        title: '用户昵称',
-        dataIndex: 'username'
+        title: '用户名称',
+        dataIndex: 'userName'
       }, {
         title: '头像',
         dataIndex: 'images',
@@ -132,8 +137,11 @@ export default {
           </a-popover>
         }
       }, {
+        title: '消息标题',
+        dataIndex: 'title'
+      }, {
         title: '消息状态',
-        dataIndex: 'readStatus',
+        dataIndex: 'status',
         customRender: (text, row, index) => {
           switch (text) {
             case 0:
@@ -146,8 +154,7 @@ export default {
         }
       }, {
         title: '消息内容',
-        dataIndex: 'content',
-        scopedSlots: {customRender: 'contentShow'}
+        dataIndex: 'content'
       }, {
         title: '发送时间',
         dataIndex: 'createDate'

@@ -7,18 +7,18 @@
           <div :class="advanced ? null: 'fold'">
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="标题"
+                label="歌手编号"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.title"/>
+                <a-input v-model="queryParams.code"/>
               </a-form-item>
             </a-col>
             <a-col :md="6" :sm="24">
               <a-form-item
-                label="内容"
+                label="歌手姓名"
                 :labelCol="{span: 5}"
                 :wrapperCol="{span: 18, offset: 1}">
-                <a-input v-model="queryParams.content"/>
+                <a-input v-model="queryParams.name"/>
               </a-form-item>
             </a-col>
           </div>
@@ -71,39 +71,39 @@
         </template>
       </a-table>
     </div>
-    <bulletin-add
-      v-if="bulletinAdd.visiable"
-      @close="handleBulletinAddClose"
-      @success="handleBulletinAddSuccess"
-      :bulletinAddVisiable="bulletinAdd.visiable">
-    </bulletin-add>
-    <bulletin-edit
-      ref="bulletinEdit"
-      @close="handleBulletinEditClose"
-      @success="handleBulletinEditSuccess"
-      :bulletinEditVisiable="bulletinEdit.visiable">
-    </bulletin-edit>
+    <singer-add
+      v-if="singerAdd.visiable"
+      @close="handlesingerAddClose"
+      @success="handlesingerAddSuccess"
+      :singerAddVisiable="singerAdd.visiable">
+    </singer-add>
+    <singer-edit
+      ref="singerEdit"
+      @close="handlesingerEditClose"
+      @success="handlesingerEditSuccess"
+      :singerEditVisiable="singerEdit.visiable">
+    </singer-edit>
   </a-card>
 </template>
 
 <script>
 import RangeDate from '@/components/datetime/RangeDate'
-import BulletinAdd from './SingerAdd.vue'
-import BulletinEdit from './SingerEdit.vue'
+import singerAdd from './SingerAdd.vue'
+import singerEdit from './SingerEdit.vue'
 import {mapState} from 'vuex'
 import moment from 'moment'
 moment.locale('zh-cn')
 
 export default {
-  name: 'Bulletin',
-  components: {BulletinAdd, BulletinEdit, RangeDate},
+  name: 'singer',
+  components: {singerAdd, singerEdit, RangeDate},
   data () {
     return {
       advanced: false,
-      bulletinAdd: {
+      singerAdd: {
         visiable: false
       },
-      bulletinEdit: {
+      singerEdit: {
         visiable: false
       },
       queryParams: {},
@@ -130,33 +130,55 @@ export default {
     }),
     columns () {
       return [{
-        title: '标题',
-        dataIndex: 'title',
+        title: '歌手编号',
+        dataIndex: 'code',
         ellipsis: true
       }, {
-        title: '公告内容',
-        dataIndex: 'content',
+        title: '歌手姓名',
+        dataIndex: 'name',
         ellipsis: true
       }, {
         title: '发布时间',
         dataIndex: 'createDate',
         ellipsis: true
       }, {
-        title: '公告状态',
-        dataIndex: 'rackUp',
+        title: '性别',
+        dataIndex: 'sex',
         customRender: (text, row, index) => {
           switch (text) {
-            case 0:
-              return <a-tag>下架</a-tag>
-            case 1:
-              return <a-tag>已发布</a-tag>
+            case '1':
+              return <a-tag>男</a-tag>
+            case '2':
+              return <a-tag>女</a-tag>
             default:
               return '- -'
           }
         }
       }, {
-        title: '上传人',
-        dataIndex: 'publisher',
+        title: '歌手图片',
+        dataIndex: 'images',
+        customRender: (text, record, index) => {
+          if (!record.images) return <a-avatar shape="square" icon="user" />
+          return <a-popover>
+            <template slot="content">
+              <a-avatar shape="square" size={132} icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+            </template>
+            <a-avatar shape="square" icon="user" src={ 'http://127.0.0.1:9527/imagesWeb/' + record.images } />
+          </a-popover>
+        }
+      }, {
+        title: '出生日期',
+        dataIndex: 'birthday',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        }
+      }, {
+        title: '身份',
+        dataIndex: 'identity',
         customRender: (text, row, index) => {
           if (text !== null) {
             return text
@@ -182,26 +204,26 @@ export default {
       this.advanced = !this.advanced
     },
     add () {
-      this.bulletinAdd.visiable = true
+      this.singerAdd.visiable = true
     },
-    handleBulletinAddClose () {
-      this.bulletinAdd.visiable = false
+    handlesingerAddClose () {
+      this.singerAdd.visiable = false
     },
-    handleBulletinAddSuccess () {
-      this.bulletinAdd.visiable = false
-      this.$message.success('新增公告成功')
+    handlesingerAddSuccess () {
+      this.singerAdd.visiable = false
+      this.$message.success('新增歌手成功')
       this.search()
     },
     edit (record) {
-      this.$refs.bulletinEdit.setFormValues(record)
-      this.bulletinEdit.visiable = true
+      this.$refs.singerEdit.setFormValues(record)
+      this.singerEdit.visiable = true
     },
-    handleBulletinEditClose () {
-      this.bulletinEdit.visiable = false
+    handlesingerEditClose () {
+      this.singerEdit.visiable = false
     },
-    handleBulletinEditSuccess () {
-      this.bulletinEdit.visiable = false
-      this.$message.success('修改公告成功')
+    handlesingerEditSuccess () {
+      this.singerEdit.visiable = false
+      this.$message.success('修改歌手成功')
       this.search()
     },
     handleDeptChange (value) {
@@ -219,7 +241,7 @@ export default {
         centered: true,
         onOk () {
           let ids = that.selectedRowKeys.join(',')
-          that.$delete('/cos/bulletin-info/' + ids).then(() => {
+          that.$delete('/cos/singer-info/' + ids).then(() => {
             that.$message.success('删除成功')
             that.selectedRowKeys = []
             that.search()
@@ -289,7 +311,7 @@ export default {
         params.size = this.pagination.defaultPageSize
         params.current = this.pagination.defaultCurrent
       }
-      this.$get('/cos/bulletin-info/page', {
+      this.$get('/cos/singer-info/page', {
         ...params
       }).then((r) => {
         let data = r.data.data
