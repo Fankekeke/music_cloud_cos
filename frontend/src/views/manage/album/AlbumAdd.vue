@@ -11,42 +11,32 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='专辑标题' v-bind="formItemLayout">
+          <a-form-item label='专辑名称' v-bind="formItemLayout">
             <a-input v-decorator="[
-            'title',
+            'name',
             { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='上传人' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'publisher',
-            { rules: [{ required: true, message: '请输入上传人!' }] }
-            ]"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label='专辑状态' v-bind="formItemLayout">
+          <a-form-item label='所属歌手' v-bind="formItemLayout">
             <a-select v-decorator="[
-              'rackUp',
-              { rules: [{ required: true, message: '请输入专辑状态!' }] }
+              'singerId',
+              { rules: [{ required: true, message: '请输入专辑歌手!' }] }
               ]">
-              <a-select-option value="0">下架</a-select-option>
-              <a-select-option value="1">已发布</a-select-option>
+              <a-select-option v-for="(item, index) in singerList" :key="item.id" :value="item.id">{{ item.name }}</a-select-option>
             </a-select>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='专辑内容' v-bind="formItemLayout">
+          <a-form-item label='专辑备注' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'content',
-             { rules: [{ required: true, message: '请输入名称!' }] }
+            'remark',
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
-          <a-form-item label='图册' v-bind="formItemLayout">
+          <a-form-item label='专辑封面' v-bind="formItemLayout">
             <a-upload
               name="avatar"
               action="http://127.0.0.1:9527/file/fileUpload/"
@@ -112,10 +102,19 @@ export default {
       loading: false,
       fileList: [],
       previewVisible: false,
-      previewImage: ''
+      previewImage: '',
+      singerList: []
     }
   },
+  mounted () {
+    this.selectSingerList()
+  },
   methods: {
+    selectSingerList () {
+      this.$get(`/cos/singer-info/list`).then((r) => {
+        this.singerList = r.data.data
+      })
+    },
     handleCancel () {
       this.previewVisible = false
     },

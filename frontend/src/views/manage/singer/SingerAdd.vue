@@ -11,36 +11,36 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='歌手标题' v-bind="formItemLayout">
+          <a-form-item label='歌手姓名' v-bind="formItemLayout">
             <a-input v-decorator="[
-            'title',
-            { rules: [{ required: true, message: '请输入名称!' }] }
+            'name',
+            { rules: [{ required: true, message: '请输入歌手姓名!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='上传人' v-bind="formItemLayout">
-            <a-input v-decorator="[
-            'publisher',
-            { rules: [{ required: true, message: '请输入上传人!' }] }
-            ]"/>
-          </a-form-item>
-        </a-col>
-        <a-col :span="12">
-          <a-form-item label='歌手状态' v-bind="formItemLayout">
+          <a-form-item label='性别' v-bind="formItemLayout">
             <a-select v-decorator="[
-              'rackUp',
-              { rules: [{ required: true, message: '请输入歌手状态!' }] }
+              'sex',
+              { rules: [{ required: true, message: '请输入性别!' }] }
               ]">
-              <a-select-option value="0">下架</a-select-option>
-              <a-select-option value="1">已发布</a-select-option>
+              <a-select-option value="1">男</a-select-option>
+              <a-select-option value="2">女</a-select-option>
             </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label='身 份' v-bind="formItemLayout">
+            <a-input v-decorator="[
+            'identity',
+            { rules: [{ required: true, message: '请输入身份!' }] }
+            ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="24">
           <a-form-item label='歌手内容' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
-            'content',
+            'remark',
              { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
           </a-form-item>

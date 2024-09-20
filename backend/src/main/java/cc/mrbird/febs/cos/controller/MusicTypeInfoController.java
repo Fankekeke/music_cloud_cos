@@ -66,6 +66,7 @@ public class MusicTypeInfoController {
      */
     @PostMapping
     public R save(MusicTypeInfo musicTypeInfo) {
+        musicTypeInfo.setCode("MT-" + System.currentTimeMillis());
         musicTypeInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(musicTypeInfoService.save(musicTypeInfo));
     }

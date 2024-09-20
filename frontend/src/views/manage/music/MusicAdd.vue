@@ -11,29 +11,38 @@
     <a-form :form="form" layout="vertical">
       <a-row :gutter="20">
         <a-col :span="12">
-          <a-form-item label='歌曲标题' v-bind="formItemLayout">
+          <a-form-item label='歌曲名称' v-bind="formItemLayout">
             <a-input v-decorator="[
-            'title',
+            'name',
             { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='上传人' v-bind="formItemLayout">
+          <a-form-item label='歌曲标签' v-bind="formItemLayout">
             <a-input v-decorator="[
-            'publisher',
-            { rules: [{ required: true, message: '请输入上传人!' }] }
+            'tag',
+            { rules: [{ required: true, message: '请输入歌曲标签!' }] }
             ]"/>
           </a-form-item>
         </a-col>
         <a-col :span="12">
-          <a-form-item label='歌曲状态' v-bind="formItemLayout">
+          <a-form-item label='创作歌手' v-bind="formItemLayout">
             <a-select v-decorator="[
-              'rackUp',
-              { rules: [{ required: true, message: '请输入歌曲状态!' }] }
+              'singerId',
+              { rules: [{ required: true, message: '请输入专辑歌手!' }] }
               ]">
-              <a-select-option value="0">下架</a-select-option>
-              <a-select-option value="1">已发布</a-select-option>
+              <a-select-option v-for="(item, index) in singerList" :key="item.id" :value="item.id">{{ item.name }}</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
+        <a-col :span="12">
+          <a-form-item label='歌曲类型' v-bind="formItemLayout">
+            <a-select v-decorator="[
+              'typeId',
+              { rules: [{ required: true, message: '请输入歌曲类型!' }] }
+              ]">
+              <a-select-option v-for="(item, index) in typeList" :key="item.id" :value="item.id">{{ item.name }}</a-select-option>
             </a-select>
           </a-form-item>
         </a-col>
@@ -43,6 +52,23 @@
             'content',
              { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
+          </a-form-item>
+        </a-col>
+        <a-col :span="24">
+          <a-form-item label='歌曲上传' v-bind="formItemLayout">
+            <a-upload
+              name="avatar"
+              action="http://127.0.0.1:9527/file/fileUpload/"
+              :file-list="fileMusicList"
+              @change="musicHandleChange"
+            >
+              <div v-if="fileMusicList.length < 1">
+                <a-icon type="plus" />
+                <div class="ant-upload-text">
+                  Upload
+                </div>
+              </div>
+            </a-upload>
           </a-form-item>
         </a-col>
         <a-col :span="24">
@@ -111,11 +137,28 @@ export default {
       form: this.$form.createForm(this),
       loading: false,
       fileList: [],
+      fileMusicList: [],
+      singerList: [],
+      typeList: [],
       previewVisible: false,
       previewImage: ''
     }
   },
+  mounted () {
+    this.selectSingerList()
+    this.selectMusicTypeList()
+  },
   methods: {
+    selectSingerList () {
+      this.$get(`/cos/singer-info/list`).then((r) => {
+        this.singerList = r.data.data
+      })
+    },
+    selectMusicTypeList () {
+      this.$get(`/cos/music-type-info/list`).then((r) => {
+        this.typeList = r.data.data
+      })
+    },
     handleCancel () {
       this.previewVisible = false
     },
@@ -128,6 +171,9 @@ export default {
     },
     picHandleChange ({ fileList }) {
       this.fileList = fileList
+    },
+    musicHandleChange ({ fileList }) {
+      this.fileMusicList = fileList
     },
     reset () {
       this.loading = false

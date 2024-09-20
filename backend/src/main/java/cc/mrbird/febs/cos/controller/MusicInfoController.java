@@ -88,6 +88,7 @@ public class MusicInfoController {
      */
     @PostMapping
     public R save(MusicInfo musicInfo) {
+        musicInfo.setCode("MS" + System.currentTimeMillis());
         musicInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(musicInfoService.musicAdd(musicInfo));
     }

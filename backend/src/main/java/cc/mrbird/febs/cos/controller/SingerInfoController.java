@@ -66,6 +66,7 @@ public class SingerInfoController {
      */
     @PostMapping
     public R save(SingerInfo singerInfo) {
+        singerInfo.setCode("SG-" + System.currentTimeMillis());
         singerInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         return R.ok(singerInfoService.save(singerInfo));
     }
