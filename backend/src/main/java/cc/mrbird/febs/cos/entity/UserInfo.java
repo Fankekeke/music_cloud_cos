@@ -68,5 +68,12 @@ public class UserInfo implements Serializable {
      */
     private String createDate;
 
+    /**
+     * openId
+     */
+    private String openId;
 
+    private String userName;
+
+    private String avatar;
 }

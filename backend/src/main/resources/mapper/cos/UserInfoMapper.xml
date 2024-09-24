@@ -13,7 +13,9 @@
         email,
         remark,
         images,
-        create_date
+        create_date,
+        user_name,
+        avatar
         from
         user_info
         where
