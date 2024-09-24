@@ -38,6 +38,16 @@ public class MusicInfoController {
     }
 
     /**
+     * 首页统计信息
+     *
+     * @return 结果
+     */
+    @GetMapping("/homeData")
+    public R homeData() {
+        return R.ok(musicInfoService.homeData());
+    }
+
+    /**
      * 根据专辑获取收录歌曲
      *
      * @param albumId 专辑ID

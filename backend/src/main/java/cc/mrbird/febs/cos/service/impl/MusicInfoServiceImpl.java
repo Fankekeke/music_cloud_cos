@@ -1,10 +1,8 @@
 package cc.mrbird.febs.cos.service.impl;
 
-import cc.mrbird.febs.cos.dao.SubscriptionInfoMapper;
-import cc.mrbird.febs.cos.entity.MessageInfo;
-import cc.mrbird.febs.cos.entity.MusicInfo;
-import cc.mrbird.febs.cos.dao.MusicInfoMapper;
-import cc.mrbird.febs.cos.entity.SubscriptionInfo;
+import cc.mrbird.febs.cos.dao.*;
+import cc.mrbird.febs.cos.entity.*;
+import cc.mrbird.febs.cos.service.IBulletinInfoService;
 import cc.mrbird.febs.cos.service.IMessageInfoService;
 import cc.mrbird.febs.cos.service.IMusicInfoService;
 import cn.hutool.core.collection.CollectionUtil;
@@ -36,6 +34,16 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
 
     private final IMessageInfoService messageInfoService;
 
+    private final AlbumInfoMapper albumInfoMapper;
+
+    private final MusicPlayRecordMapper musicPlayRecordMapper;
+
+    private final SingerInfoMapper singerInfoMapper;
+
+    private final UserInfoMapper userInfoMapper;
+
+    private final IBulletinInfoService bulletinInfoService;
+
     /**
      * 分页获取音乐信息
      *
@@ -46,6 +54,51 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
     @Override
     public IPage<LinkedHashMap<String, Object>> queryMusicPage(Page<MusicInfo> page, MusicInfo musicInfo) {
         return baseMapper.queryMusicPage(page, musicInfo);
+    }
+
+    /**
+     * 首页统计信息
+     *
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> homeData() {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("userNum", 0);
+                put("singerNum", 0);
+                put("musicNum", 0);
+                put("albumNum", 0);
+            }
+        };
+
+
+        result.put("userNum", userInfoMapper.selectCount(Wrappers.<UserInfo>lambdaQuery()));
+        result.put("singerNum", singerInfoMapper.selectCount(Wrappers.<SingerInfo>lambdaQuery()));
+        result.put("musicNum", this.count());
+        result.put("albumNum", albumInfoMapper.selectCount(Wrappers.<AlbumInfo>lambdaQuery()));
+
+        Integer year = DateUtil.thisYear();
+        Integer month = DateUtil.thisMonth() + 1;
+//        // 本月发帖数量
+//        result.put("monthOrderNum", baseMapper.selectPostNumByDate(year, month));
+//        // 获取本月浏览量
+//        result.put("monthOrderTotal", baseMapper.selectViewNumByDate(year, month));
+//
+//        // 本年发帖数量
+//        result.put("yearOrderNum", baseMapper.selectPostNumByDate(year, null));
+//        // 本年浏览量
+//        result.put("yearOrderTotal", baseMapper.selectViewNumByDate(year, null));
+
+//        // 近十天发帖统计
+//        result.put("orderNumDayList", baseMapper.selectOrderNumWithinDays());
+        // 近十天浏览统计
+        result.put("orderViewDayList", baseMapper.selectOrderViewWithinDays());
+        // 公告信息
+        result.put("bulletinInfoList", bulletinInfoService.list(Wrappers.<BulletinInfo>lambdaQuery().eq(BulletinInfo::getRackUp, 1)));
+
+        return result;
     }
 
     /**
