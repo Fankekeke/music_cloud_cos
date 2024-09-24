@@ -166,7 +166,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '歌手',
         dataIndex: 'singerName',
@@ -176,7 +177,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '头像',
         dataIndex: 'singerImages',
@@ -198,7 +200,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '发布时间',
         dataIndex: 'createDate',

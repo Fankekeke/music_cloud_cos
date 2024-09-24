@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,6 +52,9 @@ public class MessageInfo implements Serializable {
      * 创建时间
      */
     private String createDate;
+
+    @TableField(exist = false)
+    private String userName;
 
     public MessageInfo(Integer userId, String title, String contnet, String status, String createDate) {
         this.userId = userId;

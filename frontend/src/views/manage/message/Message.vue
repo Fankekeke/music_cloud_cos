@@ -120,10 +120,12 @@ export default {
     columns () {
       return [{
         title: '用户编号',
-        dataIndex: 'userCode'
+        dataIndex: 'userCode',
+        ellipsis: true
       }, {
         title: '用户名称',
-        dataIndex: 'userName'
+        dataIndex: 'userName',
+        ellipsis: true
       }, {
         title: '头像',
         dataIndex: 'images',
@@ -138,15 +140,16 @@ export default {
         }
       }, {
         title: '消息标题',
-        dataIndex: 'title'
+        dataIndex: 'title',
+        ellipsis: true
       }, {
         title: '消息状态',
         dataIndex: 'status',
         customRender: (text, row, index) => {
           switch (text) {
-            case 0:
+            case '0':
               return <a-tag>未读</a-tag>
-            case 1:
+            case '1':
               return <a-tag color="blue">已读</a-tag>
             default:
               return '- -'
@@ -154,10 +157,12 @@ export default {
         }
       }, {
         title: '消息内容',
-        dataIndex: 'content'
+        dataIndex: 'contnet',
+        ellipsis: true
       }, {
         title: '发送时间',
-        dataIndex: 'createDate'
+        dataIndex: 'createDate',
+        ellipsis: true
       }]
     }
   },

@@ -128,7 +128,8 @@ export default {
     columns () {
       return [{
         title: '评价用户',
-        dataIndex: 'userName'
+        dataIndex: 'userName',
+        ellipsis: true
       }, {
         title: '头像',
         dataIndex: 'userImages',
@@ -150,7 +151,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '歌曲封面',
         dataIndex: 'musicImages',
@@ -172,7 +174,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '评价分数',
         dataIndex: 'score',
@@ -192,7 +195,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '歌手图片',
         dataIndex: 'singerImages',
@@ -214,7 +218,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '音乐类型',
         dataIndex: 'typeName',
@@ -224,10 +229,12 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '评价时间',
-        dataIndex: 'createDate'
+        dataIndex: 'createDate',
+        ellipsis: true
       }]
     }
   },

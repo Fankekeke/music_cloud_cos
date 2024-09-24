@@ -46,11 +46,19 @@
             </a-select>
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label='所属专辑' v-bind="formItemLayout">
+            <a-select v-decorator="[
+              'albumId'
+              ]">
+              <a-select-option v-for="(item, index) in albumList" :key="item.id" :value="item.id">{{ item.name }}</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
         <a-col :span="24">
-          <a-form-item label='歌曲内容' v-bind="formItemLayout">
+          <a-form-item label='备注' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'content',
-             { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
           </a-form-item>
         </a-col>
@@ -62,12 +70,7 @@
               :file-list="fileMusicList"
               @change="musicHandleChange"
             >
-              <div v-if="fileMusicList.length < 1">
-                <a-icon type="plus" />
-                <div class="ant-upload-text">
-                  Upload
-                </div>
-              </div>
+              <a-button> <a-icon type="upload" /> Upload </a-button>
             </a-upload>
           </a-form-item>
         </a-col>
@@ -141,6 +144,7 @@ export default {
       fileMusicList: [],
       singerList: [],
       typeList: [],
+      albumList: [],
       previewVisible: false,
       previewImage: ''
     }
@@ -148,8 +152,14 @@ export default {
   mounted () {
     this.selectSingerList()
     this.selectMusicTypeList()
+    this.selectAlbumList()
   },
   methods: {
+    selectAlbumList () {
+      this.$get(`/cos/album-info/list`).then((r) => {
+        this.albumList = r.data.data
+      })
+    },
     selectSingerList () {
       this.$get(`/cos/singer-info/list`).then((r) => {
         this.singerList = r.data.data
@@ -173,6 +183,9 @@ export default {
     picHandleChange ({ fileList }) {
       this.fileList = fileList
     },
+    musicHandleChange ({ fileList }) {
+      this.fileMusicList = fileList
+    },
     imagesInit (images) {
       if (images !== null && images !== '') {
         let imageList = []
@@ -182,14 +195,27 @@ export default {
         this.fileList = imageList
       }
     },
+    fileUrlInit (fileUrl) {
+      if (fileUrl !== null && fileUrl !== '') {
+        let imageList = []
+        fileUrl.split(',').forEach((image, index) => {
+          imageList.push({uid: index, name: image, status: 'done', url: 'http://127.0.0.1:9527/imagesWeb/' + image})
+        })
+        this.fileMusicList = imageList
+      }
+    },
     setFormValues ({...music}) {
       this.rowId = music.id
-      let fields = ['name', 'tag', 'singerIds', 'typeId']
+      let fields = ['name', 'tag', 'singerId', 'typeId', 'albumId', 'content']
       let obj = {}
       Object.keys(music).forEach((key) => {
         if (key === 'images') {
           this.fileList = []
           this.imagesInit(music['images'])
+        }
+        if (key === 'fileUrl') {
+          this.fileMusicList = []
+          this.fileUrlInit(music['fileUrl'])
         }
         if (key === 'rackUp') {
           music[key] = music[key].toString()
@@ -219,9 +245,19 @@ export default {
           images.push(image.name)
         }
       })
+      // 获取音乐List
+      let music = []
+      this.fileMusicList.forEach(image => {
+        if (image.response !== undefined) {
+          music.push(image.response)
+        } else {
+          music.push(image.name)
+        }
+      })
       this.form.validateFields((err, values) => {
         values.id = this.rowId
         values.images = images.length > 0 ? images.join(',') : null
+        values.fileUrl = music.length > 0 ? music.join(',') : null
         if (!err) {
           this.loading = true
           this.$put('/cos/music-info', {

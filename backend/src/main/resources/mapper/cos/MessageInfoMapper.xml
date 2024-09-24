@@ -10,7 +10,7 @@
         message_info.title,
         message_info.contnet,
         message_info.status,
-        create_date,
+        message_info.create_date,
         user_info.code as userCode,
         user_info.name as userName,
         user_info.images as userImages

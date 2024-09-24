@@ -128,7 +128,8 @@ export default {
     columns () {
       return [{
         title: '用户名称',
-        dataIndex: 'userName'
+        dataIndex: 'userName',
+        ellipsis: true
       }, {
         title: '头像',
         dataIndex: 'userImages',
@@ -150,7 +151,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '歌曲封面',
         dataIndex: 'musicImages',
@@ -172,7 +174,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '歌手图片',
         dataIndex: 'singerImages',
@@ -194,7 +197,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '音乐类型',
         dataIndex: 'typeName',
@@ -204,10 +208,12 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '收藏时间',
-        dataIndex: 'createDate'
+        dataIndex: 'createDate',
+        ellipsis: true
       }]
     }
   },

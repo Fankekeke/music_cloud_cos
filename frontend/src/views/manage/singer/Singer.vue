@@ -175,7 +175,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '身份',
         dataIndex: 'identity',
@@ -185,7 +186,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '操作',
         dataIndex: 'operation',

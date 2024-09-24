@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -53,9 +54,14 @@ public class MusicInfo implements Serializable {
     private String images;
 
     /**
+     * 备注
+     */
+    private String content;
+
+    /**
      * 歌手信息
      */
-    private String singerIds;
+    private Integer singerId;
 
     /**
      * 文件地址
@@ -77,5 +83,9 @@ public class MusicInfo implements Serializable {
      */
     private String createDate;
 
+    @TableField(exist = false)
+    private String singerName;
 
+    @TableField(exist = false)
+    private String albumName;
 }

@@ -37,6 +37,14 @@
             ]"/>
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label='出生日期' v-bind="formItemLayout">
+            <a-date-picker style="width: 100%;" v-decorator="[
+            'birthday',
+            { rules: [{ required: true, message: '请输入出生日期!' }] }
+            ]"/>
+          </a-form-item>
+        </a-col>
         <a-col :span="24">
           <a-form-item label='歌手内容' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
@@ -73,7 +81,10 @@
 </template>
 
 <script>
+
 import {mapState} from 'vuex'
+import moment from 'moment'
+moment.locale('zh-cn')
 function getBase64 (file) {
   return new Promise((resolve, reject) => {
     const reader = new FileReader()
@@ -141,16 +152,21 @@ export default {
     },
     setFormValues ({...singer}) {
       this.rowId = singer.id
-      let fields = ['name', 'identity', 'sex', 'remark']
+      let fields = ['name', 'identity', 'sex', 'remark', 'birthday']
       let obj = {}
       Object.keys(singer).forEach((key) => {
         if (key === 'images') {
           this.fileList = []
           this.imagesInit(singer['images'])
         }
-        if (key === 'rackUp') {
-          singer[key] = singer[key].toString()
+        if (key === 'birthday') {
+          if (key === 'birthday' && singer[key] != null) {
+            singer[key] = moment(singer[key])
+          }
         }
+        // if (key === 'rackUp') {
+        //   singer[key] = singer[key].toString()
+        // }
         if (fields.indexOf(key) !== -1) {
           this.form.getFieldDecorator(key)
           obj[key] = singer[key]
@@ -179,6 +195,7 @@ export default {
       this.form.validateFields((err, values) => {
         values.id = this.rowId
         values.images = images.length > 0 ? images.join(',') : null
+        values.birthday = moment(values.birthday).format('YYYY-MM-DD')
         if (!err) {
           this.loading = true
           this.$put('/cos/singer-info', {

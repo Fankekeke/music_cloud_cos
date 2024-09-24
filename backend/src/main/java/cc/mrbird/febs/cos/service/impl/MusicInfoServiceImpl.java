@@ -81,10 +81,10 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
         musicInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
         // 歌曲编号
         musicInfo.setCode("MUS-" + System.currentTimeMillis());
-        List<String> singerIds = StrUtil.split(musicInfo.getSingerIds(), ",");
+//        List<String> singerIds = StrUtil.split(musicInfo.getSingerIds(), ",");
         // 获取关注此歌手的用户
         List<SubscriptionInfo> subscriptionList = subscriptionInfoMapper.selectList(Wrappers.<SubscriptionInfo>lambdaQuery()
-                .in(CollectionUtil.isNotEmpty(singerIds), SubscriptionInfo::getSingerId, singerIds));
+                .eq(SubscriptionInfo::getSingerId, musicInfo.getSingerId()));
 
         if (CollectionUtil.isNotEmpty(subscriptionList)) {
             List<MessageInfo> toAddList = new ArrayList<>();

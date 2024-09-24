@@ -26,7 +26,7 @@
         left join music_info on
         (music_info.id = lyrics_info.music_id)
         left join singer_info on
-        (singer_info.id = music_info.singer_ids)
+        (singer_info.id = music_info.singer_id)
         left join music_type_info on
         (music_type_info.id = music_info.type_id)
         left join album_info on

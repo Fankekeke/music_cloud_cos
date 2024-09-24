@@ -11,10 +11,11 @@
         music_info.total_time,
         music_info.album_id,
         music_info.images,
-        music_info.singer_ids,
+        music_info.singer_id,
         music_info.file_url,
         music_info.tag,
         music_info.type_id,
+        music_info.content,
         music_info.create_date,
         singer_info.code as singerCode,
         singer_info.name as singerName,
@@ -27,7 +28,7 @@
         from
         music_info
         left join singer_info on
-        (singer_info.id = music_info.singer_ids)
+        (singer_info.id = music_info.singer_id)
         left join music_type_info on
         (music_type_info.id = music_info.type_id)
         left join album_info on
@@ -52,10 +53,11 @@
         select music_info.id,
                music_info.code,
                music_info.name,
+               music_info.content,
                music_info.total_time,
                music_info.album_id,
                music_info.images,
-               music_info.singer_ids,
+               music_info.singer_id,
                music_info.file_url,
                music_info.tag,
                music_info.type_id,
@@ -70,7 +72,7 @@
                album_info.images    as albumImages
         from music_info
                  left join singer_info on
-            (singer_info.id = music_info.singer_ids)
+            (singer_info.id = music_info.singer_id)
                  left join music_type_info on
             (music_type_info.id = music_info.type_id)
                  left join album_info on
@@ -85,10 +87,11 @@
         select music_info.id,
                music_info.code,
                music_info.name,
+               music_info.content,
                music_info.total_time,
                music_info.album_id,
                music_info.images,
-               music_info.singer_ids,
+               music_info.singer_id,
                music_info.file_url,
                music_info.tag,
                music_info.type_id,
@@ -103,13 +106,13 @@
                album_info.images    as albumImages
         from music_info
                  left join singer_info on
-            (singer_info.id = music_info.singer_ids)
+            (singer_info.id = music_info.singer_id)
                  left join music_type_info on
             (music_type_info.id = music_info.type_id)
                  left join album_info on
             (album_info.id = music_info.album_id)
         where 1 = 1
-          AND music_info.singer_ids = #{singerId}
+          AND music_info.singer_id = #{singerId}
         order by music_info.create_date desc
     </select>
 </mapper>

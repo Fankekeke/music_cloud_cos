@@ -46,11 +46,19 @@
             </a-select>
           </a-form-item>
         </a-col>
+        <a-col :span="12">
+          <a-form-item label='所属专辑' v-bind="formItemLayout">
+            <a-select v-decorator="[
+              'albumId'
+              ]">
+              <a-select-option v-for="(item, index) in albumList" :key="item.id" :value="item.id">{{ item.name }}</a-select-option>
+            </a-select>
+          </a-form-item>
+        </a-col>
         <a-col :span="24">
-          <a-form-item label='歌曲内容' v-bind="formItemLayout">
+          <a-form-item label='备注' v-bind="formItemLayout">
             <a-textarea :rows="6" v-decorator="[
             'content',
-             { rules: [{ required: true, message: '请输入名称!' }] }
             ]"/>
           </a-form-item>
         </a-col>
@@ -62,12 +70,7 @@
               :file-list="fileMusicList"
               @change="musicHandleChange"
             >
-              <div v-if="fileMusicList.length < 1">
-                <a-icon type="plus" />
-                <div class="ant-upload-text">
-                  Upload
-                </div>
-              </div>
+              <a-button> <a-icon type="upload" /> Upload </a-button>
             </a-upload>
           </a-form-item>
         </a-col>
@@ -140,6 +143,7 @@ export default {
       fileMusicList: [],
       singerList: [],
       typeList: [],
+      albumList: [],
       previewVisible: false,
       previewImage: ''
     }
@@ -147,8 +151,14 @@ export default {
   mounted () {
     this.selectSingerList()
     this.selectMusicTypeList()
+    this.selectAlbumList()
   },
   methods: {
+    selectAlbumList () {
+      this.$get(`/cos/album-info/list`).then((r) => {
+        this.albumList = r.data.data
+      })
+    },
     selectSingerList () {
       this.$get(`/cos/singer-info/list`).then((r) => {
         this.singerList = r.data.data
@@ -189,8 +199,14 @@ export default {
       this.fileList.forEach(image => {
         images.push(image.response)
       })
+      // 获取音乐List
+      let music = []
+      this.fileMusicList.forEach(image => {
+        music.push(image.response)
+      })
       this.form.validateFields((err, values) => {
         values.images = images.length > 0 ? images.join(',') : null
+        values.fileUrl = music.length > 0 ? music.join(',') : null
         if (!err) {
           this.loading = true
           this.$post('/cos/music-info', {

@@ -3,6 +3,7 @@ package cc.mrbird.febs.cos.entity;
 import java.io.Serializable;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -41,5 +42,12 @@ public class LyricsInfo implements Serializable {
      */
     private String words;
 
+    @TableField(exist = false)
+    private String musicName;
 
+    @TableField(exist = false)
+    private String singerName;
+
+    @TableField(exist = false)
+    private String albumName;
 }
