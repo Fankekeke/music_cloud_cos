@@ -1,0 +1,82 @@
+<template>
+	<div class="video">
+		
+
+		
+			<view class="video-card">
+				
+					<div class="video-info">
+						<video :page-gesture="false" class="video-play" :id="video.data.vid" :src="video.data.urlInfo.url" :poster="video.data.coverUrl">
+							<!-- 自定义封面需要自定义play键, 暂时简单处理 -->
+							<!-- <cover-image class="video-image" :src="video.data.coverUrl"></cover-image> -->
+						</video>
+						
+						
+						<div class="image-mask"></div>
+						<div class="video-title">
+							<div class="title-left">
+								<text class="video-name">{{video.data.title}}</text>
+							</div>
+							<div class="title-right">
+								<image class="avatar" :src="video.data.creator.avatarUrl"></image>
+							</div>
+						</div>
+					</div>
+					
+					<div class="card-footer">
+						<div class="footer-left">
+							<div class="like">
+								<image class="like-icon" src="../../static/rattle/like.png"></image>
+								<text class="like-num"> 701</text>
+							</div>
+							<div class="comment">
+								<image class="comment-icon" src="../../static/rattle/comment.png"></image>
+								<text class="comment-num"> 59</text>
+							</div>
+						</div>
+						<div class="footer-right">
+							<image class="more" src="../../static/rattle/more.png"></image>
+						</div>
+					</div>
+				
+			</view>
+
+		
+	</div>
+</template>
+
+<script>
+	
+	export default {
+		components: {
+
+		},
+		props: {
+			video: {
+				type: Object,
+				default: {}
+			},
+		},
+		
+		data() {
+			return {
+				videos: []
+			}
+		},
+		created() {
+			
+		},
+		watch: {
+
+		},
+		methods: {
+			
+		}
+
+	}
+</script>
+
+<style>
+	@import '../../common/wyy.css';
+	@import '../../components/wyy-video-card/wyy_video_card.css';
+</style>

@@ -1,0 +1,147 @@
+<template>
+	<view class="music" @tap="play">
+		
+		<view class="music-index" v-if="show_number">
+			<text class="index-text">{{number + 1}}</text>
+		</view>
+		<view class="music-info" :class="show_number ? '' : 'padding-left'">
+			<text class="music-name">{{song.name}}</text>
+			<view class="music-creators">
+				<text class="music-creator" v-for="(creator, c_index) in song.artists" :key="c_index">{{creator.name + ' '}}</text>
+				<text class="music-al">- {{song.album_name}}</text>
+			</view>
+		</view>
+		<view class="handle-area" v-if="false">
+			
+		</view>
+	</view>
+</template>
+
+<script>
+	import $repeater from '@/utils/repeater.js';
+	export default {
+		props: {
+			song: {
+				type: Object,
+				default: {
+					
+				}
+			},
+			number: {
+				type: Number,
+				default: 0
+			},
+			show_number: {
+				type: Boolean,
+				default: true,
+			},
+			playlist_id: {
+				type: Number,
+				default: 0
+			}
+			
+		},
+		data() {
+			return {
+				
+			};
+		},
+		computed: {
+			played: function() {
+				return this.$store.state.played;
+			}
+		},
+		methods: {
+			// 播放
+			// 如果选中歌曲和底部播放组件是同一首歌, 则跳转到播放页并开始播放
+			// 如果不同, 则开始播放新选中的歌曲, 更新播放组件信息, 不跳转
+			play() {
+				let song_id = this.song.id;
+				$repeater.player.start(song_id, (played)=> {
+					played && this.$store.commit('set_played', played);
+				})
+				
+				// 获取相同歌单下的歌曲生成一个播放列表, 如何没有指定歌单id, 那么仅将此首歌push到播放列表中
+				
+				if (this.playlist_id) {
+					let playlist_id = this.playlist_id;
+					$repeater.playlist.get_playlist_detail(playlist_id, (data)=> {
+						let playlist = data.playlist;
+						
+						let format_songs = [];
+						playlist.tracks.forEach((song)=> {
+							let format_song = {};
+							format_song.id = song.id;
+							format_song.name = song.name;
+							format_song.artists = song.ar;
+							format_song.album_name = song.al.name;
+							format_songs.push(format_song);
+						})
+						this.$store.commit('set_current_playlist', format_songs);
+					});
+				}else {
+					// 不存在playlist_id, 则直接将此歌曲插入到播放列表中
+					let song = this.song;
+					let format_song = {};
+					format_song.id = song.id;
+					format_song.name = song.name;
+					format_song.artists = song.artists;
+					format_song.album_name = song.album_name;
+					
+					this.$store.commit('push_current_playlist', format_song);
+				}
+				
+			},
+		},
+	}
+</script>
+
+<style>
+.music {
+		flex-direction: row;
+		width: 750rpx;
+		height: 100rpx;
+		
+	}
+	.music:active{
+		background-color: rgba(0,0,0,0.1);
+	}
+	.music-index {
+		justify-content: center;
+		align-items: center;
+		width: 100rpx;
+	}
+	.index-text {
+		font-size: 26rpx;
+		color: rgba(0,0,0,0.3);
+	}
+	.music-info {
+		flex: 1;
+		height: 100rpx;
+		justify-content: center;
+		
+	}
+	.padding-left {
+		padding-left: 30rpx;
+	}
+	.music-name {
+		font-size: 26rpx;
+	}
+	.music-creators {
+		margin-top: 10rpx;
+		flex-direction: row;
+		text-overflow: ellipsis;
+	}
+	.music-creator {
+		font-size: 18rpx;
+		color: rgba(0,0,0,0.3);
+	}
+	.music-al {
+		font-size: 18rpx;
+		color: rgba(0,0,0,0.3);
+	}
+	.handle-area {
+		height: 100rpx;
+		width: 120rpx;
+	}
+</style>

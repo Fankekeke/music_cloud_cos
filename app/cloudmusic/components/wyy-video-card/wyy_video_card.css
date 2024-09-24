@@ -1,0 +1,104 @@
+
+
+.video-title {
+	flex-direction: row;
+	height: 90rpx;
+	width: 700rpx;
+	background-color: rgba(0,0,0,0.05);
+	justify-content: space-between;
+}
+.video-play {
+	width: 700rpx;
+	height: 400rpx;
+}
+
+.title-left{
+	height: 90rpx;
+	width: 615rpx;
+	padding: 0rpx 15rpx;
+	justify-content: center;
+}
+.title-right{
+	height: 90rpx;
+	width: 90rpx;
+	justify-content: center;
+	align-items: center;
+}
+.avatar{
+	height: 50rpx;
+	width: 50rpx;
+	border-radius: 50%;
+}
+
+.video-card {
+	width: 750rpx;
+	padding-top: 35rpx;
+	align-items: center;
+}
+
+
+.video-info {
+	width: 700rpx;
+	border-radius: 15rpx;
+}
+
+.video-image {
+	width: 700rpx;
+	height: 400rpx;
+}
+
+.video-name{
+	font-size: 23rpx;
+	font-weight: 600;
+	lines: 1;
+	text-overflow: ellipsis;
+}
+
+.card-footer {
+	height: 80rpx;
+	width: 700rpx;
+	flex-direction: row;
+	justify-content: space-between;
+}
+.footer-left{
+	height: 80rpx;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+}
+.like{
+	flex-direction: row;
+}
+.comment{
+	margin-left: 70rpx;
+	flex-direction: row;
+}
+.like-num{
+	font-size: 20rpx;
+	line-height: 35rpx;
+	color: #707070;
+}
+.comment-num{
+	font-size: 20rpx;
+	line-height: 35rpx;
+	color: #707070;
+}
+.like-icon{
+	height: 35rpx;
+	width: 35rpx;
+}
+.comment-icon{
+	height: 35rpx;
+	width: 35rpx;
+}
+.footer-right{
+	width: 80rpx;
+	height: 80rpx;
+	justify-content: center;
+	align-items: flex-end;
+	
+}
+.more{
+	height: 25rpx;
+	width: 25rpx;
+}

@@ -1,0 +1,118 @@
+.placeholder {
+	height: 100rpx;
+}
+.personal-details{
+	padding: 0 30rpx;
+}
+.line{
+	height: 1;
+	background-color: rgba(0,0,0,.1);
+
+}
+.sidebar{
+	flex: 1;
+}
+.contain{
+	/* padding: 0 30rpx; */
+}
+
+.personal-card{
+	
+}
+.avatar{
+	height: 110rpx;
+	width: 110rpx;
+	border-radius: 50%;
+}
+.nickname{
+	font-size: 25rpx;
+	line-height: 70rpx;
+}
+.data-strip{
+	flex-direction: row;
+	justify-content: space-between;
+}
+.vip-card{
+	border-radius: 10rpx;
+	background-image: linear-gradient(to right, #000000, rgba(0,0,0,.8));
+	height: 90rpx;
+	margin: 25rpx 30rpx;
+}
+.features{
+	flex-direction: row;
+	padding: 20rpx;
+}
+.icon-block{
+	flex: 1;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	margin: 0rpx 10rpx;
+	padding: 10rpx;
+}
+.feature-icon{
+	width: 50rpx;
+	height: 50rpx;
+}
+.feature-name{
+	font-size: 18rpx;
+	margin-top: 10rpx;
+}
+
+
+
+
+
+.cells{
+	padding: 15rpx 0rpx;
+}
+.cell{
+	flex-direction: row;
+	padding: 15rpx 0rpx;
+}
+.cell:active{
+	background-color: rgba(0,0,0,0.1);
+}
+.cell-left{
+	padding-left: 30rpx;
+	justify-content: center;
+	align-items: center;
+}
+.cell-right{
+	margin-left: 15rpx;
+	flex-direction: row;
+	align-items: center;
+}
+.cell-name{
+	font-size: 22rpx;
+}
+.number{
+	font-size: 20rpx;
+	color: rgba(0,0,0,0.3);
+}
+.cell-icon{
+	width: 45rpx;
+	height: 45rpx;
+}
+
+
+.footer {
+	height: 80rpx;
+	flex-direction: row;
+	padding: 0 30rpx;
+	align-items: center;
+}
+.turn_account {
+	flex: 1;justify-content: center;align-items: center;
+	height: 80rpx;
+}
+.quit {
+	flex: 1;justify-content: center;align-items: center;
+	height: 80rpx;
+}
+.turn_account:active {
+	background-color: rgba(0,0,0,0.1);
+}
+.quit:active {
+	background-color: rgba(0,0,0,0.1);
+}

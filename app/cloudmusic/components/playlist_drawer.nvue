@@ -1,0 +1,144 @@
+<template>
+	<uni-pop-up ref="showpopup" type="bottom" @change="change">
+		<view class="content">
+			<view class="header" style="">
+				<view class="play-type">
+					<wyy-icon type="&#xe676;" size="30" color="#000000" ></wyy-icon>
+					<text style="font-size: 26rpx; margin-left: 20rpx;">随机播放</text>
+				</view>
+				<view class="header-right">
+					
+				</view>
+			</view>
+			<list style="flex: 1;" show-scrollbar="false">
+				<cell class="song-cell" v-for="(song, index) in playlist" :key="index" @tap="play(song.id)" :ref="`song${song.id}`">
+					<view style="flex-direction: row;align-items: center"  >
+						<wyy-icon style="margin-right: 20rpx;" v-if="song.id == played.id" type="&#xe67f;" size="30" color="#FF0000" ></wyy-icon>
+						<text style="font-size: 26rpx;" :class="song.id == played.id ? 'active-song' : ''">{{song.name}}</text>
+						<text class="ar-text" :class="song.id == played.id ? 'active-song' : ''" >{{' - ' + song.artists[0].name}}</text>
+					</view>
+					
+					<wyy-icon type="&#xe636;" size="30" color="rgba(0,0,0,.5)" ></wyy-icon>
+				</cell>
+			</list>
+		</view>
+	</uni-pop-up>
+</template>
+
+<script>
+	import uniPopUp from '@/components/uni-popup/uni-popup.vue';
+	import wyyIcon from '@/components/wyy-icon/wyy-icon.nvue';
+	
+	import $repeater from '@/utils/repeater.js';
+	const dom = weex.requireModule('dom')
+	export default {
+		components: {
+			uniPopUp,
+			wyyIcon
+		},
+		data() {
+			return {
+				
+			};
+		},
+		props: {
+			
+		},
+		computed: {
+			playlist() {
+				return this.$store.state.current_playlist;
+			},
+			played: function() {
+				return this.$store.state.played;
+			},
+		},
+		created() {
+			
+		},
+		methods: {
+			prev_song() {
+				$repeater.player.prev((played)=> {
+					played && this.$store.commit('set_played', played);
+				})
+			},
+			next_song() {
+				$repeater.player.next((played)=> {
+					played && this.$store.commit('set_played', played);
+				})
+			},
+			play(song_id) {
+				$repeater.player.start(song_id, (played)=> {
+					played && this.$store.commit('set_played', played);
+					this.close_playlist();
+				})
+			},
+			change(e) {
+				// 这里暂时会报一个错误, 因为当前播放的歌曲, 不在播放列表中, 这个问题在将歌曲添加到列表中后会自动解决, 暂时不影响使用
+				if (e.show) {
+					setTimeout(()=> {
+						let song_id = this.played.id;
+						const el = this.$refs[`song${song_id}`][0];
+						dom.scrollToElement(el, {
+							offset: 0,
+							animated: false
+						})
+					}, 300);
+				}
+			},
+			
+			close_playlist() {
+				this.$nextTick(() => {
+					this.$refs.showpopup.close();
+				})
+			},
+			open_playlist() {
+				this.$nextTick(() => {
+					this.$refs.showpopup.open();
+				})
+				
+				
+				
+			},
+		},
+	}
+</script>
+
+<style>
+	.content {
+		height: 850rpx; width: 750rpx; background-color: #FFFFFF;
+		border-top-left-radius: 35rpx;
+		border-top-right-radius: 35rpx;
+	}
+	.header {
+		flex-direction: row;
+		height: 80rpx;
+		
+		border-bottom-color: rgba(0, 0, 0, .1);
+		border-bottom-width: 1rpx;
+	}
+	.play-type {
+		flex-direction: row;
+		height: 90rpx;
+		align-items: center;
+		padding: 0 20rpx;
+	}
+	.play-type:active {
+		background-color: rgba(0,0,0,0.2);
+	}
+	.song-cell {
+		padding: 0 20rpx; 
+		height: 80rpx;
+		flex-direction: row;
+		align-items: center;
+		justify-content: space-between;
+	}
+	.song-cell:active {
+		background-color: rgba(0,0,0,.1);
+	}
+	.active-song {
+		color: #FF0000;
+	}
+	.ar-text{
+		font-size: 18rpx; color: rgba(0,0,0,.5);
+	}
+</style>

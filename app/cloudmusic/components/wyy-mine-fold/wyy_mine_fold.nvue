@@ -1,0 +1,89 @@
+<template>
+	<div class="fold">
+		<div class="fold-header" @click="rotate()">
+			<div class="fold-header-left">
+				<wyy-icon ref="unfold" type="&#xe6af;" size="26" color="#696969" @click.stop=""></wyy-icon>
+				<text class="fold-name">{{ musicListName }}</text>
+				<text class="fold-num">({{number}})</text>
+			</div>
+			<div class="fold-header-right">
+				<image v-if="musicListType=='created'" class="add" src="/static/rattle/mine/add.png" @click.stop=""></image>
+				<wyy-icon class="more" type="&#xe655;" size="30" color="#696969" @click.stop=""></wyy-icon>
+			</div>
+		</div>
+		<div class="fold-content" v-if="!isFold">
+			<playlist-card v-for="(item, index) in current_list" :key="index" :playlist="item"></playlist-card>
+		</div>
+	</div>
+</template>
+
+<script>
+	import wyyIcon from '../../components/wyy-icon/wyy-icon.nvue';
+	
+	import playlistCard from '../../components/playlist_card.nvue';
+	const animation = weex.requireModule('animation');
+
+	export default {
+		components: {
+			wyyIcon,
+			playlistCard
+		},
+		data() {
+			return {
+				
+				isFold: false,
+			}
+		},
+		computed: {
+			uid: function() {
+				return this.$store.state.uid;
+			},
+		},
+		created() {
+			
+		},
+		props: {
+			current_list: {
+				type: Array,
+				default: []
+			},
+			
+			musicListName: {
+				type: String,
+				default: "创建的歌单"
+			},
+			musicListType: {
+				type: String,
+				default: "created"
+			},
+			number: {
+				type: Number,
+				default: 0
+			}
+		},
+		methods: {
+			rotate() {
+				var degree = this.isFold ? '0deg' : '-90deg'
+				
+				var unfoldEl = this.$refs.unfold;
+				animation.transition(unfoldEl, {
+					styles: {
+						transform: 'rotate('+degree+')',
+						transformOrigin: 'center center'
+					},
+					duration: 250, //ms
+					timingFunction: 'linear',
+					delay: 0 //ms
+				},  ()=> {
+					this.isFold = !this.isFold;
+					//动画执行结束
+				})
+			},
+		},
+	}
+</script>
+
+
+<style>
+@import '../../components/wyy-mine-fold/wyy_mine_fold.css';
+</style>

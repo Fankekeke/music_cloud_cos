@@ -1,0 +1,181 @@
+{
+	"pages": [{
+			"path": "pages/welcome/welcome",
+			"style": {
+				"titleNView": false
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页",
+				"titleNView": false
+			}
+
+		},
+		{
+			"path": "pages/search/search",
+			"style": {
+				"titleNView": false,
+				"backgroundColor": "rgba(0,0,0,0.3)",
+				"app-plus": {
+					"animationType": "slide-in-bottom",
+					"animationDuration": 250,
+					"bounce": "none",
+					"subNVues": [{
+						"id": "search_nav_bar",
+						"path": "subNVue/search_nav_bar",
+
+						"style": {
+							"position": "dock",
+							"dock": "top",
+							"height": "130rpx"
+						}
+					}]
+				}
+			}
+		}, {
+			"path": "pages/login/login",
+			"style": {
+				"navigationBarTitleText": "登录",
+				"titleNView": false
+			}
+		}, {
+			"path": "pages/login/phone",
+			"style": {
+				"navigationBarTitleText": "手机号登录",
+				"titleNView": {
+					"titleAlign": "left",
+					"backgroundColor": "#FF0000",
+					"titleColor": "#FFFFFF"
+				}
+			}
+		}, {
+			"path": "pages/login/password",
+			"style": {
+				"navigationBarTitleText": "手机号登录",
+				"titleNView": {
+					"titleAlign": "left",
+					"backgroundColor": "#FF0000",
+					"titleColor": "#FFFFFF"
+				}
+			}
+		}, {
+			"path": "pages/login/captcha",
+			"style": {
+				"navigationBarTitleText": "手机号验证",
+				"titleNView": {
+					"titleAlign": "left",
+					"backgroundColor": "#FF0000",
+					"titleColor": "#FFFFFF"
+				}
+			}
+		}, {
+			"path": "pages/login/nickname",
+			"style": {
+				"navigationBarTitleText": "昵称",
+				"titleNView": {
+					"titleAlign": "left",
+					"backgroundColor": "#FF0000",
+					"titleColor": "#FFFFFF"
+				}
+			}
+		}
+
+		, {
+			"path": "pages/playlist/playlist",
+			"style": {
+				"app-plus": {
+					// "scrollIndicator": "none",
+					// "animationType": "slide-in-bottom",
+					// "animationDuration":300,
+					"titleNView": {
+						"titleColor": "#FFFFFF",
+						"titleText": "歌单",
+
+						"backgroundColor": "rgba(218, 45, 30, 1)",
+						"buttons": [{
+								"fontSrc": "/static/font/iconfont.ttf",
+								"text": "\ue655",
+								"width": "40px",
+								"fontSize": "24px",
+								"color": "#FFFFFF",
+								"background": "rgba(0,0,0,0)"
+							},
+							{
+								"fontSrc": "/static/font/iconfont.ttf",
+								"text": "\ue66b",
+								"width": "40px",
+								"fontSize": "24px",
+								"color": "#FFFFFF",
+								"background": "rgba(0,0,0,0)"
+							}
+						]
+					}
+				}
+			}
+		}, {
+			"path": "pages/play/play",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleAlign": "left",
+						"titleColor": "#FFFFFF",
+						"titleText": "加载中...",
+
+						"backgroundColor": "#171616",
+						"buttons": [{
+							"fontSrc": "/static/font/iconfont.ttf",
+							"text": "\ue667",
+							"width": "40px",
+							"fontSize": "24px",
+							"color": "#FFFFFF",
+							"background": "rgba(0,0,0,0)"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/album/album",
+			"style": {
+				"app-plus": {
+					"titleNView": {
+						"titleColor": "#FFFFFF",
+						"titleText": "专辑",
+
+						"backgroundColor": "rgba(218, 45, 30, 1)",
+						"buttons": [{
+							"fontSrc": "/static/font/iconfont.ttf",
+							"text": "\ue655",
+							"width": "40px",
+							"fontSize": "24px",
+							"color": "#FFFFFF",
+							"background": "rgba(0,0,0,0)"
+						}]
+					}
+				}
+			}
+		}, {
+			"path": "pages/video/video",
+			"style": {
+				"app-plus": {
+					"animationType": "fade-in",
+					"titleNView": {
+						// "type": "transparent",
+						"titleColor": "#FFFFFF",
+						"titleText": "精彩视频",
+						"backgroundColor": "rgba(0, 0, 0, .2)",
+						"titleAlign": "left",
+						"type": "float"
+					}
+				}
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "cloud music",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
+	}
+}

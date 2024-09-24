@@ -1,0 +1,76 @@
+<template>
+	<div class="find-recommend">
+
+		<div class="title">
+			<div class="title-left">
+				<text class="title-content">推荐歌单</text>
+			</div>
+			<div class="title-right" @click="toMusicList">
+				<text class="title-handle">歌单广场</text>
+			</div>
+		</div>
+
+		<div class="music-lists">
+			<div class="music-list" v-for="(playlist,mlIndex) in recommend_playlists" :key="mlIndex" @tap="to_playlist(playlist)">
+				<image class="ml-bg-image" resize="cover" :src="playlist.picUrl"></image>
+				<div class="music-list-header" v-if="showImageMask">
+					<text class="favorite-num">{{playlist.playCount}}</text>
+				</div>
+
+				<div class="music-list-footer">
+					<text class="list-name">{{playlist.name}}</text>
+				</div>
+			</div>
+		</div>
+
+
+
+
+	</div>
+</template>
+
+<script>
+	import $repeater from '@/utils/repeater.js';
+	export default {
+
+		components: {
+
+		},
+		props: {
+			showImageMask: {
+				type: Boolean,
+				default: false
+			}
+		},
+		data() {
+			return {
+				recommend_playlists: []
+			}
+		},
+		created() {
+			this.get_recommend_playlists();
+		},
+		watch: {
+
+		},
+		methods: {
+			to_playlist(playlist) {
+				$repeater.helper.to('/pages/playlist/playlist?playlist_id=' + playlist.id + '&cover_image=' + playlist.picUrl + '&name=' + playlist.name);
+			},
+			get_recommend_playlists() {
+				$repeater.personalized.playlist((res)=> {
+					this.recommend_playlists = res.result;
+				}, 6)
+			},
+			toMusicList() {
+				console.log('toMusicList');
+			}
+		}
+
+
+	}
+</script>
+
+<style>
+	@import '../../components/wyy-find-recommend/wyy_find_recommend.css';
+</style>
