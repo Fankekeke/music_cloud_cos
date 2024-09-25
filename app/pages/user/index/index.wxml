@@ -21,7 +21,7 @@
         </navigator>
     </view>
     <view class="cu-item arrow">
-        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/coupon/index/index">
+        <navigator class='content' open-type="navigate" hover-class='none' url="/pages/order/evaluate/index">
             <text class='icon-ticket text-red'></text>
             <text class='text-grey'>我的评价</text>
         </navigator>

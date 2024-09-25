@@ -1,6 +1,8 @@
 package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
+import cc.mrbird.febs.cos.dao.CollectInfoMapper;
+import cc.mrbird.febs.cos.dao.EvaluateInfoMapper;
 import cc.mrbird.febs.cos.dao.MessageInfoMapper;
 import cc.mrbird.febs.cos.dao.SubscriptionInfoMapper;
 import cc.mrbird.febs.cos.entity.MessageInfo;
@@ -39,11 +41,13 @@ public class WebController {
 
     private final IMessageInfoService messageInfoService;
 
-    private final ICollectInfoService collectInfoService;
+    private final CollectInfoMapper collectInfoMapper;
 
     private final MessageInfoMapper messageInfoMapper;
 
     private final SubscriptionInfoMapper subscriptionInfoMapper;
+
+    private final EvaluateInfoMapper evaluationMapper;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -195,7 +199,29 @@ public class WebController {
      */
     @GetMapping("/querySubscriptionSinger")
     public R querySubscriptionSinger(@RequestParam("userId") Integer userId) {
-        return R.ok();
+        return R.ok(subscriptionInfoMapper.selectSubByUser(userId));
+    }
+
+    /**
+     * 根据用户获取评价信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryEvaluateByUser")
+    public R queryEvaluateByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(evaluationMapper.queryEvaluateByUser(userId));
+    }
+
+    /**
+     * 获取用户收藏歌曲
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/queryCollectByUser")
+    public R queryCollectByUser(@RequestParam("userId") Integer userId) {
+        return R.ok(collectInfoMapper.queryCollectByUserId(userId));
     }
 
     /**
@@ -207,6 +233,17 @@ public class WebController {
     @GetMapping("/queryMessageByUser")
     public R queryMessageByUser(@RequestParam("userId") Integer userId) {
         return R.ok(messageInfoMapper.selectList(Wrappers.<MessageInfo>lambdaQuery().eq(MessageInfo::getUserId, userId)));
+    }
+
+    /**
+     * 删除消息
+     *
+     * @param evaluateId 评价ID
+     * @return 结果
+     */
+    @GetMapping("/delMessage")
+    public R delEvaluate(@RequestParam("evaluateId") Integer evaluateId) {
+        return R.ok(evaluationMapper.deleteById(evaluateId));
     }
 
     /**

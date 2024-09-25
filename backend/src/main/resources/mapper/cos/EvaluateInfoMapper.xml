@@ -128,7 +128,7 @@
                  left join album_info on
             (album_info.id = music_info.album_id)
         where 1 = 1
-          AND evaluate_info.user_id = #{musicId}
+          AND evaluate_info.user_id = #{userId}
         order by evaluate_info.create_date desc
     </select>
 </mapper>

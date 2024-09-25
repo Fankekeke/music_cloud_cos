@@ -77,7 +77,7 @@ Page({
     }
   },
   getOrderListByUserId(userId) {
-    http.get('querySubscriptionSinger', { userId }).then((r) => {
+    http.get('queryEvaluateByUser', { userId }).then((r) => {
       r.data.forEach(item => {
         item.days = this.timeFormat(item.createDate)
       });

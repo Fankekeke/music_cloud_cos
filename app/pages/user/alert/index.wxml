@@ -54,7 +54,7 @@
                         修改
                     </button>
                 </view> -->
-                <view class='margin-tb-sm text-center'>
+                <view class='margin-tb-sm text-right'>
                     <button class='cu-btn round line-red shadow' bindtap="removerPost" data-index="{{item.id}}">
                         删除
                     </button>
