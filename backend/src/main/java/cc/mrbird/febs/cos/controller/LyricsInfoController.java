@@ -1,9 +1,11 @@
 package cc.mrbird.febs.cos.controller;
 
 
+import cc.mrbird.febs.common.exception.FebsException;
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.entity.LyricsInfo;
 import cc.mrbird.febs.cos.service.ILyricsInfoService;
+import cn.hutool.core.collection.CollectionUtil;
 import cn.hutool.core.date.DateUtil;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -46,7 +48,7 @@ public class LyricsInfoController {
      */
     @GetMapping("/queryLyricsByMusic")
     public R queryLyricsByMusic(@RequestParam("musicId") Integer musicId) {
-        return R.ok(lyricsInfoService.list(Wrappers.<LyricsInfo>lambdaQuery().eq(LyricsInfo::getMusicId, musicId)));
+        return R.ok(lyricsInfoService.getOne(Wrappers.<LyricsInfo>lambdaQuery().eq(LyricsInfo::getMusicId, musicId)));
     }
 
     /**
@@ -77,7 +79,12 @@ public class LyricsInfoController {
      * @return 结果
      */
     @PostMapping
-    public R save(LyricsInfo lyricsInfo) {
+    public R save(LyricsInfo lyricsInfo) throws FebsException {
+        // 校验是否已经绑定
+        int count = lyricsInfoService.count(Wrappers.<LyricsInfo>lambdaQuery().eq(LyricsInfo::getMusicId, lyricsInfo.getMusicId()));
+        if (count > 0) {
+            throw new FebsException("此条已经被绑定过了");
+        }
         return R.ok(lyricsInfoService.save(lyricsInfo));
     }
 
@@ -88,7 +95,12 @@ public class LyricsInfoController {
      * @return 结果
      */
     @PutMapping
-    public R edit(LyricsInfo lyricsInfo) {
+    public R edit(LyricsInfo lyricsInfo) throws FebsException {
+        // 校验是否已经绑定
+        List<LyricsInfo> count = lyricsInfoService.list(Wrappers.<LyricsInfo>lambdaQuery().eq(LyricsInfo::getMusicId, lyricsInfo.getMusicId()));
+        if (CollectionUtil.isNotEmpty(count) && !count.get(0).getId().equals(lyricsInfo.getId())) {
+            throw new FebsException("此条已经被绑定过了");
+        }
         return R.ok(lyricsInfoService.updateById(lyricsInfo));
     }
 
