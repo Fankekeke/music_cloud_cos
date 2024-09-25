@@ -241,7 +241,7 @@ public class WebController {
      * @param evaluateId 评价ID
      * @return 结果
      */
-    @GetMapping("/delMessage")
+    @GetMapping("/delEvaluate")
     public R delEvaluate(@RequestParam("evaluateId") Integer evaluateId) {
         return R.ok(evaluationMapper.deleteById(evaluateId));
     }

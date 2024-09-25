@@ -87,7 +87,7 @@ Page({
     })
   },
   removerPost(event) {
-    http.get('delMessage', { messageId: event.currentTarget.dataset.index }).then((r) => {
+    http.get('delEvaluate', { messageId: event.currentTarget.dataset.index }).then((r) => {
       wx.showToast({
         title: '删除成功',
         icon: 'none',
