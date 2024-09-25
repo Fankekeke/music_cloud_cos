@@ -6,10 +6,11 @@ Page({
         CustomBar: app.globalData.CustomBar,
         TabbarBot: app.globalData.tabbar_bottom,
         TabCur: 0,scrollLeft:0,
-        SortMenu: [{id:0,name:"贴子列表"},{id:1,name:"用户列表"}],
+        SortMenu: [{id:0,name:"单曲"},{id:1,name:"歌手"},{id:2,name:"专辑"}],
         key: '',
-        commodity: [],
-        shop: []
+        musicList: [],
+        singerList: [],
+        albumList: []
     },
     onLoad: function (options) {
         this.setData({ key: options.key })
@@ -18,7 +19,7 @@ Page({
     getGoodsFuzzy() {
         // console.log(this.data.key)
         http.get('selShopDetailList', { key: this.data.key }).then((r) => {
-            this.setData({ commodity: r.post, shop: r.user })
+            this.setData({ musicList: r.music, singerList: r.singer, albumList: r.album })
 		})
     },
     shopDeatil(e) {

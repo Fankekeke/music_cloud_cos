@@ -4,7 +4,7 @@
     </view>
 </view>
 <view class="box" style="top: 60px">
-    <view class="cu-bar bg-white solid-bottom">
+    <!-- <view class="cu-bar bg-white solid-bottom">
         <view class="action">
             <text class="cuIcon-title text-orange "></text>
             消息列表
@@ -25,12 +25,32 @@
                 </view>
                 <view class="action">
                     <view class="text-grey text-xs">{{ item.days }}</view>
-                    <!-- <view class="cu-tag round bg-red sm">5</view> -->
+                    <view class="cu-tag round bg-red sm">5</view>
                 </view>
             </view>
         </view>
     </view>
     <view>
         <van-empty wx:if="{{ messageList.length === 0 }}" description="暂无消息" style="height: 300px;width: 100%" />
+    </view> -->
+    <view class="cu-bar bg-white solid-bottom">
+    <view class='action'>
+        <text class='icon-title text-orange'></text> 收藏歌曲
     </view>
+</view>
+<view class="cu-list menu menu-avatar">
+    <view class="cu-item " wx:for="{{messageList}}">
+        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.musicImages }});"></view>
+        <view class='content'>
+            <view class="text-titile" style="font-size: 14px">{{ item.musicName }}</view>
+            <view class='text-gray text-sm'>{{ item.albumName }}</view>
+        </view>
+        <view class='action'>
+            <view class='text-grey text-xs'>{{ item.singerName }}</view>
+        </view>
+    </view>
+    <view>
+        <van-empty wx:if="{{ messageList.length === 0 }}" description="暂无收藏" style="height: 300px;width: 100%" />
+    </view>
+</view>
 </view>

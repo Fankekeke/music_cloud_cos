@@ -63,7 +63,7 @@
 <!--          <apexchart  v-if="!loading" type="line" height="300" :options="chartOptions" :series="series"></apexchart>-->
 <!--        </a-card>-->
 <!--      </a-col>-->
-      <a-col :span="12">
+      <a-col :span="24">
         <a-card hoverable :bordered="false" style="width: 100%">
           <a-skeleton active v-if="loading" />
           <apexchart v-if="!loading" type="bar" height="300" :options="chartOptions1" :series="series1"></apexchart>
@@ -295,7 +295,7 @@ export default {
         this.titleData.musicNum = r.data.musicNum
         this.titleData.albumNum = r.data.albumNum
 
-        this.bulletinList = r.data.bulletin
+        this.bulletinList = r.data.bulletinInfoList
         let values = []
         if (r.data.orderViewDayList !== null && r.data.orderViewDayList.length !== 0) {
           if (this.chartOptions1.xaxis.categories.length === 0) {

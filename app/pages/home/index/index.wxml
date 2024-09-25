@@ -54,32 +54,32 @@
 <view class="cu-bar bg-white margin-top solid-bottom">
     <view class='action'>
         <text class='icon-title text-green'></text>
-        <text>热门</text>
+        <text>热门单曲</text>
     </view>
     <!-- <navigator hover-class='none' url="/pages/home/groom/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
     </navigator> -->
 </view>
-<view class="bg-white" style="padding:0 30rpx;padding-bottom: 20rpx;">
+<view class="bg-white" style="padding:0 20rpx;padding-bottom: 20rpx;">
     <view class='nav-list canui-flex-car'>
 
-        <navigator wx:for="{{postInfo}}" open-type="navigate" hover-class='none' data-postId='{{item.id}}' bindtap='postDetail' class="nav-li canui-yx-url">
+        <navigator wx:for="{{musicList}}" open-type="navigate" hover-class='none' data-postId='{{item.id}}' bindtap='postDetail' class="nav-li canui-yx-url">
             <view class="flex-sub cu-card case shadow-warp bg-white">
                 <view class="cu-item shadow">
                     <view class='image'>
-                        <image src="http://127.0.0.1:9527/imagesWeb/{{ item.image }}" mode="widthFix"></image>
+                        <image src="http://127.0.0.1:9527/imagesWeb/{{ item.images }}" mode="widthFix"></image>
                     </view>
                     <view class="cu-list menu menu-avatar">
                         <view class="cu-item">
                             <view class='content flex-sub'>
-                                <view class='text-grey' style="font-size: 11px">{{ item.userName }}</view>
+                                <view class='text-grey' style="font-size: 11px">{{ item.singerName }}</view>
                                 <view class='text-gray text-sm flex justify-between'>
-                                    {{item.title}}
+                                    {{item.name}}
                                 </view>
                             </view>
                         </view>
                     </view>
-                    <view class="cu-avatar radius" style="background-image:url({{item.avatar}});"></view>
+                    <view class="cu-avatar radius" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{item.singerImages}});"></view>
                 </view>
             </view>
         </navigator>
@@ -87,46 +87,46 @@
     </view>
 </view>
 
-<!--论坛-->
-<!-- <view class="cu-bar bg-white solid-bottom margin-top">
+<!--歌手-->
+<view class="cu-bar bg-white solid-bottom margin-top">
     <view class='action'>
-        <text class='icon-title text-orange'></text> 论坛
+        <text class='icon-title text-orange'></text> 歌手
     </view>
     <navigator hover-class='none' url="/pages/coupon/index/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
     </navigator>
 </view>
 <view class="cu-list menu menu-avatar">
-    <view class="cu-item " wx:for="{{postInfo}}" bindtap='postDetail' data-postId='{{ item.id }}'>
-        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.image }});"></view>
+    <view class="cu-item " wx:for="{{singerList}}" bindtap='postDetail' data-postId='{{ item.id }}'>
+        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
         <view class='content'>
-            <view class="text-titile">{{ item.title }}</view>
-            <view class='text-gray text-sm'>{{ item.content }}</view>
+            <view class="text-titile">{{ item.name }}</view>
+            <view class='text-gray text-sm'>{{ item.remark }}</view>
         </view>
         <view class='action'>
-            <view class='text-grey text-xs'>{{ item.days }}</view>
+            <!-- <view class='text-grey text-xs'>{{ item.identity }}</view> -->
         </view>
     </view>
-</view> -->
+</view>
 
-<!--设计师-->
-<!-- <view class="cu-bar bg-white solid-bottom margin-top">
+<!--专辑-->
+<view class="cu-bar bg-white solid-bottom margin-top">
     <view class='action'>
-        <text class='icon-title text-orange'></text> 商铺
+        <text class='icon-title text-orange'></text> 专辑
     </view>
     <navigator hover-class='none' url="/pages/home/groom/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
     </navigator>
 </view>
 <view class="cu-list menu menu-avatar">
-    <view class="cu-item " wx:for="{{shopInfo}}">
-        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.avatar }});"></view>
+    <view class="cu-item " wx:for="{{albumList}}">
+        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
         <view class='content'>
-            <view class="text-titile">{{ item.userName }}</view>
-            <view class='text-gray text-sm'>{{ item.introduction }}</view>
+            <view class="text-titile">{{ item.name }}</view>
+            <view class='text-gray text-sm'>{{ item.remark }}</view>
         </view>
         <view class='action'>
-            <view class='text-grey text-xs'>{{ item.tag }}</view>
+            <view class='text-grey text-xs'>{{ item.singerName }}</view>
         </view>
     </view>
-</view> -->
+</view>

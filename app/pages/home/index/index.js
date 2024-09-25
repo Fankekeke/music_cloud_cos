@@ -42,6 +42,12 @@ Page({
 			color: 'yellow',
 			name: '我的收藏',
 			type: 3
+		}, {
+			id: 4,
+			icon: 'discoverfill',
+			color: 'olive',
+			name: '消息',
+			type: 4
 		}],
 		iconList1: [{
 			id: 1,
@@ -80,6 +86,9 @@ Page({
 		shopInfo: [],
 		postInfo: [],
 		commodityHot: [],
+		musicList: [],
+		singerList: [],
+		albumList: [],
 		keys: '',
 		videosrc: "http://wxsnsdy.tc.qq.com/105/20210/snsdyvideodownload?filekey=30280201010421301f0201690402534804102ca905ce620b1241b726bc41dcff44e00204012882540400&bizid=1023&hy=SH&fileparam=302c020101042530230204136ffd93020457e3c4ff02024ef202031e8d7f02030f42400204045a320a0201000400",
 
@@ -97,7 +106,7 @@ Page({
 	    //     }
 	    // });
 		this.home()
-		this.getPostInfo()
+		// this.getPostInfo()
 	},
 
 getPostInfo() {
@@ -152,17 +161,17 @@ getPostInfo() {
     },
 	home() {
 		http.get('home').then((r) => {
-			r.commodityHot.forEach(item => {
-				item.image = item.images.split(',')[0]
-			});
-			r.postInfo.forEach(item => {
-				item.image = item.images.split(',')[0]
-				item.days = this.timeFormat(item.createDate)
-			});
+			// r.commodityHot.forEach(item => {
+			// 	item.days = this.timeFormat(item.createDate)
+			// });
+			// r.postInfo.forEach(item => {
+			// 	item.image = item.images.split(',')[0]
+			// 	item.days = this.timeFormat(item.createDate)
+			// });
 			this.setData({
-				shopInfo: r.shopInfo,
-				postInfo: r.postInfo,
-				commodityHot: r.commodityHot
+				musicList: r.music,
+				singerList: r.singer,
+				albumList: r.album
 			})
 		})
 	},
@@ -222,7 +231,7 @@ getPostInfo() {
 		}
 		if (item.itemtype === 4) {
 			wx.navigateTo({
-				url: '/pages/home/search/index?key=生鲜'
+				url: '/pages/user/alert/index'
 			});
 		}
 	},

@@ -27,27 +27,39 @@
 </view>
 <view class="bg-white canui-goods-list" style="top:{{CustomBar + 7}}px;">
     <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 0 }}">
-        <view class="cu-item " wx:for="{{ commodity }}" bindtap="postDetail" data-postId='{{item.id}}'>
+        <view class="cu-item " wx:for="{{ musicList }}" bindtap="postDetail" data-postId='{{item.id}}'>
             <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
             <view class='content' style="padding-left: 15px">
-                <view class="canui-xzwz">{{ item.title }}</view>
-                <view class='text-sm'>{{ item.username }} 收藏量：{{item.collect}} 回复：{{item.reply}}</view>
+                <view class="canui-xzwz" style="font-size: 14px">{{ item.name }}</view>
+                <view class='text-sm'  style="overflow: hidden;display: -webkit-box;text-overflow: ellipsis;-webkit-box-orient: vertical;-webkit-line-clamp: 1;">{{item.singerName}} 【{{ item.albumName ? item.albumName : '- -' }}】 </view>
             </view>
         </view>
-        <view wx:if="{{ commodity.length === 0 }}">
-            <van-empty style="height: 400px;margin: 0 auto" description="无贴子信息" />
+        <view wx:if="{{ musicList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
         </view>
     </view>
     <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 1 }}">
-        <view class="cu-item " wx:for="{{ shop }}" bindtap='shopDeatil' data-shopId='{{ item.id }}'>
-            <view class="cu-avatar radius lg" style="background-image:url({{ item.images }});"></view>
+        <view class="cu-item " wx:for="{{ singerList }}" bindtap='shopDeatil' data-shopId='{{ item.id }}'>
+            <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
             <view class='content' style="padding-left: 15px">
                 <view class="canui-xzwz">{{ item.name }}</view>
-                <view class='text-sm'>{{ item.area ? item.area : '- -' }} {{item.profession ? item.profession : '- -'}}</view>
+                <view class='text-sm'  style="overflow: hidden;display: -webkit-box;text-overflow: ellipsis;-webkit-box-orient: vertical;-webkit-line-clamp: 1;">{{ item.identity ? item.identity : '- -' }}</view>
             </view>
         </view>
-        <view wx:if="{{ shop.length === 0 }}">
-            <van-empty style="height: 400px;margin: 0 auto" description="无用户信息" />
+        <view wx:if="{{ singerList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
+        </view>
+    </view>
+    <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 2 }}">
+        <view class="cu-item " wx:for="{{ albumList }}" bindtap='shopDeatil' data-shopId='{{ item.id }}'>
+            <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
+            <view class='content' style="padding-left: 15px">
+                <view class="canui-xzwz">{{ item.name }}</view>
+                <view class='text-gray text-sm' style="overflow: hidden;display: -webkit-box;text-overflow: ellipsis;-webkit-box-orient: vertical;-webkit-line-clamp: 1;">{{ item.remark ? item.remark : '- -' }}</view>
+            </view>
+        </view>
+        <view wx:if="{{ albumList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
         </view>
     </view>
 </view>
