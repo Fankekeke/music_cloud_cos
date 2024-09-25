@@ -23,4 +23,12 @@ public interface ISingerInfoService extends IService<SingerInfo> {
      * @return 结果
      */
     IPage<LinkedHashMap<String, Object>> querySingerPage(Page<SingerInfo> page, SingerInfo singerInfo);
+
+    /**
+     * 获取歌手详细信息
+     *
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> querySingerDetail(Integer singerId);
 }

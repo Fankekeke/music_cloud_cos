@@ -26,6 +26,13 @@ public interface MusicInfoMapper extends BaseMapper<MusicInfo> {
     IPage<LinkedHashMap<String, Object>> queryMusicPage(Page<MusicInfo> page, @Param("musicInfo") MusicInfo musicInfo);
 
     /**
+     * 获取首页音乐信息
+     *
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryHomeMusicList();
+
+    /**
      * 十天内访问记录统计
      *
      * @return 结果

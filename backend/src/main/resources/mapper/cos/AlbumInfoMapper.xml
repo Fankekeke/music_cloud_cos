@@ -34,4 +34,51 @@
         order by
         album_info.create_date desc
     </select>
+
+    <!-- 获取主页专辑信息 -->
+    <select id="queryHomeAlbumList" resultType="java.util.LinkedHashMap">
+        select album_info.id,
+               album_info.code,
+               album_info.name,
+               album_info.singer_id,
+               album_info.images,
+               album_info.remark,
+               album_info.create_date,
+               singer_info.code   as singerCode,
+               singer_info.name   as singerName,
+               singer_info.images as singerImages,
+               singer_info.`identity`
+        from album_info
+                 left join singer_info on
+            (singer_info.id = album_info.singer_id)
+        where 1 = 1
+        order by album_info.create_date desc limit 6
+    </select>
+
+    <!-- 获取主页专辑信息 -->
+    <select id="queryAlbumBySingerList" resultType="java.util.LinkedHashMap">
+        select
+        album_info.id,
+        album_info.code,
+        album_info.name,
+        album_info.singer_id,
+        album_info.images,
+        album_info.remark,
+        album_info.create_date,
+        singer_info.code as singerCode,
+        singer_info.name as singerName,
+        singer_info.images as singerImages,
+        singer_info.`identity`
+        from
+        album_info
+        left join singer_info on
+        (singer_info.id = album_info.singer_id)
+        where
+        1 = 1
+        <if test="singerId != null and singerId != ''">
+            AND album_info.singer_id = #{singerId}
+        </if>
+        order by
+        album_info.create_date desc
+    </select>
 </mapper>

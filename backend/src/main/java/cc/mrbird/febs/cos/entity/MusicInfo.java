@@ -88,4 +88,7 @@ public class MusicInfo implements Serializable {
 
     @TableField(exist = false)
     private String albumName;
+
+    @TableField(exist = false)
+    private Integer collectNum;
 }

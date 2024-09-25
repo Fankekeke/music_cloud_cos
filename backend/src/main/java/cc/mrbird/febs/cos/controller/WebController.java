@@ -1,16 +1,12 @@
 package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
-import cc.mrbird.febs.cos.dao.CollectInfoMapper;
-import cc.mrbird.febs.cos.dao.EvaluateInfoMapper;
-import cc.mrbird.febs.cos.dao.MessageInfoMapper;
-import cc.mrbird.febs.cos.dao.SubscriptionInfoMapper;
+import cc.mrbird.febs.cos.dao.*;
+import cc.mrbird.febs.cos.entity.CollectInfo;
 import cc.mrbird.febs.cos.entity.MessageInfo;
+import cc.mrbird.febs.cos.entity.SubscriptionInfo;
 import cc.mrbird.febs.cos.entity.UserInfo;
-import cc.mrbird.febs.cos.service.IBulletinInfoService;
-import cc.mrbird.febs.cos.service.ICollectInfoService;
-import cc.mrbird.febs.cos.service.IMessageInfoService;
-import cc.mrbird.febs.cos.service.IUserInfoService;
+import cc.mrbird.febs.cos.service.*;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpUtil;
 import cn.hutool.json.JSONUtil;
@@ -39,7 +35,9 @@ public class WebController {
 
     private final IBulletinInfoService bulletinInfoService;
 
-    private final IMessageInfoService messageInfoService;
+    private final ISingerInfoService singerInfoService;
+
+    private final IMusicInfoService musicInfoService;
 
     private final CollectInfoMapper collectInfoMapper;
 
@@ -48,6 +46,12 @@ public class WebController {
     private final SubscriptionInfoMapper subscriptionInfoMapper;
 
     private final EvaluateInfoMapper evaluationMapper;
+
+    private final AlbumInfoMapper albumInfoMapper;
+
+    private final MusicInfoMapper musicInfoMapper;
+
+    private final SingerInfoMapper singerInfoMapper;
 
     @PostMapping("/userAdd")
     public R userAdd(@RequestBody UserInfo user) throws Exception {
@@ -192,6 +196,24 @@ public class WebController {
     }
 
     /**
+     * 获取首页数据
+     *
+     * @return 结果
+     */
+    @GetMapping("/home")
+    public R home() {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("music", musicInfoMapper.queryHomeMusicList());
+                put("singer", singerInfoMapper.queryHomeSingerList());
+                put("album", albumInfoMapper.queryHomeAlbumList());
+            }
+        };
+        return R.ok(result);
+    }
+
+    /**
      * 根据用户获取
      *
      * @param userId 用户ID
@@ -236,7 +258,29 @@ public class WebController {
     }
 
     /**
-     * 删除消息
+     * 删除收藏
+     *
+     * @param collectId 收藏ID
+     * @return 结果
+     */
+    @GetMapping("/delCollect")
+    public R delCollect(@RequestParam("collectId") Integer collectId) {
+        return R.ok(collectInfoMapper.deleteById(collectId));
+    }
+
+    /**
+     * 删除关注
+     *
+     * @param subscriptionId 关注ID
+     * @return 结果
+     */
+    @GetMapping("/delSubscription")
+    public R delSubscription(@RequestParam("subscriptionId") Integer subscriptionId) {
+        return R.ok(subscriptionInfoMapper.deleteById(subscriptionId));
+    }
+
+    /**
+     * 删除评价
      *
      * @param evaluateId 评价ID
      * @return 结果
@@ -255,6 +299,87 @@ public class WebController {
     @GetMapping("/delMessage")
     public R delMessage(@RequestParam("messageId") Integer messageId) {
         return R.ok(messageInfoMapper.deleteById(messageId));
+    }
+
+    /**
+     * 获取用户收藏歌曲状态
+     *
+     * @param userId  用户ID
+     * @param musicId 歌曲ID
+     * @return 结果
+     */
+    @GetMapping("/queryCollectStatus")
+    public R queryCollectStatus(@RequestParam("userId") Integer userId, @RequestParam("musicId") Integer musicId) {
+        return R.ok(collectInfoMapper.selectCount(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getUserId, userId).eq(CollectInfo::getMusicId, musicId)) > 0);
+    }
+
+    /**
+     * 根据用户ID和歌曲ID删除
+     *
+     * @param userId  用户ID
+     * @param musicId 歌曲ID
+     * @return 结果
+     */
+    @GetMapping("/delCollectByMusic")
+    public R delCollectByMusic(@RequestParam("userId") Integer userId, @RequestParam("musicId") Integer musicId) {
+        return R.ok(collectInfoMapper.delete(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getUserId, userId).eq(CollectInfo::getMusicId, musicId)));
+    }
+
+    /**
+     * 获取用户关注歌手状态
+     *
+     * @param userId   用户ID
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    @GetMapping("/querySubStatus")
+    public R querySubStatus(@RequestParam("userId") Integer userId, @RequestParam("singerId") Integer singerId) {
+        return R.ok(subscriptionInfoMapper.selectCount(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, userId).eq(SubscriptionInfo::getSingerId, singerId)) > 0);
+    }
+
+    /**
+     * 根据用户ID和歌手ID删除
+     *
+     * @param userId   用户ID
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    @GetMapping("/delSubByMusic")
+    public R delSubByMusic(@RequestParam("userId") Integer userId, @RequestParam("singerId") Integer singerId) {
+        return R.ok(subscriptionInfoMapper.delete(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, userId).eq(SubscriptionInfo::getSingerId, singerId)));
+    }
+
+    /**
+     * 获取歌手详细信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/querySingerDetail")
+    public R querySingerDetail(@RequestParam("userId") Integer userId) {
+        return R.ok(singerInfoService.querySingerDetail(userId));
+    }
+
+    /**
+     * 根据专辑获取下的歌曲
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    @GetMapping("/queryMusicByAlbum")
+    public R queryMusicByAlbum(@RequestParam("albumId") Integer albumId) {
+        return R.ok(musicInfoMapper.selectMusicByAlbum(albumId));
+    }
+
+    /**
+     * 获取歌曲详情
+     *
+     * @param musicId 歌曲ID
+     * @return 结果
+     */
+    @GetMapping("/queryMusicDetail")
+    public R queryMusicDetail(@RequestParam("musicId") Integer musicId) {
+        return R.ok(musicInfoService.queryMusicDetail(musicId));
     }
 
     /**

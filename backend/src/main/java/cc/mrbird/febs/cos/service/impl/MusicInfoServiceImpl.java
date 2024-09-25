@@ -16,10 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * 音乐管理 实现层
@@ -38,9 +35,13 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
 
     private final MusicPlayRecordMapper musicPlayRecordMapper;
 
+    private final EvaluateInfoMapper evaluateInfoMapper;
+
     private final SingerInfoMapper singerInfoMapper;
 
     private final UserInfoMapper userInfoMapper;
+
+    private final CollectInfoMapper collectInfoMapper;
 
     private final IBulletinInfoService bulletinInfoService;
 
@@ -121,6 +122,35 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
     @Override
     public List<LinkedHashMap<String, Object>> selectMusicBySinger(Integer singerId) {
         return baseMapper.selectMusicBySinger(singerId);
+    }
+
+    /**
+     * 获取歌曲详情
+     *
+     * @param musicId 歌曲ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> queryMusicDetail(Integer musicId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("music", null);
+                put("singer", null);
+                put("evaluate", Collections.emptyList());
+            }
+        };
+        // 歌曲信息
+        MusicInfo musicInfo = this.getById(musicId);
+        // 歌曲收藏
+        musicInfo.setCollectNum(collectInfoMapper.selectCount(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getMusicId, musicId)));
+
+        // 歌手信息
+        SingerInfo singerInfo = singerInfoMapper.selectById(musicInfo.getSingerId());
+        result.put("singer", singerInfo);
+        // 歌曲评价
+        result.put("evaluate", evaluateInfoMapper.queryEvaluateByMusic(musicId));
+        return result;
     }
 
     /**
