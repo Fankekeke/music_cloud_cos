@@ -215,7 +215,19 @@ public class WebController {
     }
 
     /**
-     * 根据用户获取
+     * 新增音乐评价信息
+     *
+     * @param evaluateInfo 音乐评价信息
+     * @return 结果
+     */
+    @PostMapping("/addEvaluate")
+    public R addEvaluate(@RequestBody EvaluateInfo evaluateInfo) {
+        evaluateInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        return R.ok(evaluationMapper.insert(evaluateInfo));
+    }
+
+    /**
+     * 根据用户获取订阅信息
      *
      * @param userId 用户ID
      * @return 结果
