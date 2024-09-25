@@ -2,10 +2,7 @@ package cc.mrbird.febs.cos.controller;
 
 import cc.mrbird.febs.common.utils.R;
 import cc.mrbird.febs.cos.dao.*;
-import cc.mrbird.febs.cos.entity.CollectInfo;
-import cc.mrbird.febs.cos.entity.MessageInfo;
-import cc.mrbird.febs.cos.entity.SubscriptionInfo;
-import cc.mrbird.febs.cos.entity.UserInfo;
+import cc.mrbird.febs.cos.entity.*;
 import cc.mrbird.febs.cos.service.*;
 import cn.hutool.core.date.DateUtil;
 import cn.hutool.http.HttpUtil;
@@ -32,6 +29,8 @@ import java.util.stream.Collectors;
 public class WebController {
 
     private final IUserInfoService userInfoService;
+
+    private final IMusicPlayRecordService musicPlayRecordService;
 
     private final IBulletinInfoService bulletinInfoService;
 
@@ -380,7 +379,15 @@ public class WebController {
      * @return 结果
      */
     @GetMapping("/queryMusicDetail")
-    public R queryMusicDetail(@RequestParam("musicId") Integer musicId) {
+    public R queryMusicDetail(@RequestParam("musicId") Integer musicId, @RequestParam(value = "userId", required = false) Integer userId) {
+        if (userId != null) {
+            // 保存用户播放记录
+            MusicPlayRecord musicPlayRecord = new MusicPlayRecord();
+            musicPlayRecord.setUserId(userId);
+            musicPlayRecord.setMusicId(musicId);
+            musicPlayRecord.setCreateDate(DateUtil.formatDateTime(new Date()));
+            musicPlayRecordService.save(musicPlayRecord);
+        }
         return R.ok(musicInfoService.queryMusicDetail(musicId));
     }
 
