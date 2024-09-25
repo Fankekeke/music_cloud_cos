@@ -26,6 +26,14 @@ public interface SingerInfoMapper extends BaseMapper<SingerInfo> {
     IPage<LinkedHashMap<String, Object>> querySingerPage(Page<SingerInfo> page, @Param("singerInfo") SingerInfo singerInfo);
 
     /**
+     * 获取歌手信息信息
+     *
+     * @param key 关键字
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> querySingerList(@Param("key") String key);
+
+    /**
      * 获取首页歌手信息
      *
      * @return 结果

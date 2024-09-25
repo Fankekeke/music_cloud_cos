@@ -48,6 +48,46 @@
         music_info.create_date desc
     </select>
 
+    <!-- 获取音乐信息 -->
+    <select id="queryMusicList" resultType="java.util.LinkedHashMap">
+        select
+        music_info.id,
+        music_info.code,
+        music_info.name,
+        music_info.total_time,
+        music_info.album_id,
+        music_info.images,
+        music_info.singer_id,
+        music_info.file_url,
+        music_info.tag,
+        music_info.type_id,
+        music_info.content,
+        music_info.create_date,
+        singer_info.code as singerCode,
+        singer_info.name as singerName,
+        singer_info.images as singerImages,
+        singer_info.`identity`,
+        music_type_info.name as typeName,
+        album_info.code as albumCode,
+        album_info.name as albumName,
+        album_info.images as albumImages
+        from
+        music_info
+        left join singer_info on
+        (singer_info.id = music_info.singer_id)
+        left join music_type_info on
+        (music_type_info.id = music_info.type_id)
+        left join album_info on
+        (album_info.id = music_info.album_id)
+        where
+        1 = 1
+        <if test="key != null and key != ''">
+            AND music_info.name LIKE CONCAT('%',#{key},'%')
+        </if>
+        order by
+        music_info.create_date desc
+    </select>
+
     <!-- 获取首页音乐信息 -->
     <select id="queryHomeMusicList" resultType="java.util.LinkedHashMap">
         select

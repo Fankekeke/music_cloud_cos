@@ -26,6 +26,14 @@ public interface AlbumInfoMapper extends BaseMapper<AlbumInfo> {
     IPage<LinkedHashMap<String, Object>> queryAlbumPage(Page<AlbumInfo> page, @Param("albumInfo") AlbumInfo albumInfo);
 
     /**
+     * 获取专辑信息
+     *
+     * @param key 专辑信息
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> queryAlbumList(@Param("key") String key);
+
+    /**
      * 获取主页专辑信息
      *
      * @return 结果

@@ -35,6 +35,8 @@ public class WebController {
 
     private final IBulletinInfoService bulletinInfoService;
 
+    private final IAlbumInfoService albumInfoService;
+
     private final ISingerInfoService singerInfoService;
 
     private final IMusicInfoService musicInfoService;
@@ -350,17 +352,6 @@ public class WebController {
     }
 
     /**
-     * 获取歌手详细信息
-     *
-     * @param userId 用户ID
-     * @return 结果
-     */
-    @GetMapping("/querySingerDetail")
-    public R querySingerDetail(@RequestParam("userId") Integer userId) {
-        return R.ok(singerInfoService.querySingerDetail(userId));
-    }
-
-    /**
      * 根据专辑获取下的歌曲
      *
      * @param albumId 专辑ID
@@ -372,6 +363,17 @@ public class WebController {
     }
 
     /**
+     * 获取歌手详细信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    @GetMapping("/querySingerDetail")
+    public R querySingerDetail(@RequestParam("userId") Integer userId) {
+        return R.ok(singerInfoService.querySingerDetail(userId));
+    }
+
+    /**
      * 获取歌曲详情
      *
      * @param musicId 歌曲ID
@@ -380,6 +382,17 @@ public class WebController {
     @GetMapping("/queryMusicDetail")
     public R queryMusicDetail(@RequestParam("musicId") Integer musicId) {
         return R.ok(musicInfoService.queryMusicDetail(musicId));
+    }
+
+    /**
+     * 获取专辑详情
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    @GetMapping("/queryAlbumDetail")
+    public R queryAlbumDetail(@RequestParam("albumId") Integer albumId) {
+        return R.ok(albumInfoService.queryAlbumDetail(albumId));
     }
 
     /**
@@ -401,6 +414,16 @@ public class WebController {
     @GetMapping("/getBulletinList")
     public R getBulletinList() {
         return R.ok(bulletinInfoService.list());
+    }
+
+    /**
+     * 用户搜索
+     *
+     * @return 结果
+     */
+    @GetMapping("/selShopDetailList")
+    public R selSearchDetailList(@RequestParam(value = "key", required = false) String key) {
+        return R.ok(musicInfoService.selSearchDetailList(key));
     }
 
 }

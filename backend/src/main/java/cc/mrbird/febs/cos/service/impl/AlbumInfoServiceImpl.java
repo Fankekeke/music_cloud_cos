@@ -1,5 +1,7 @@
 package cc.mrbird.febs.cos.service.impl;
 
+import cc.mrbird.febs.cos.dao.MusicInfoMapper;
+import cc.mrbird.febs.cos.dao.SingerInfoMapper;
 import cc.mrbird.febs.cos.dao.SubscriptionInfoMapper;
 import cc.mrbird.febs.cos.entity.AlbumInfo;
 import cc.mrbird.febs.cos.dao.AlbumInfoMapper;
@@ -17,10 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.LinkedHashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * 专辑管理 实现层
@@ -35,6 +34,10 @@ public class AlbumInfoServiceImpl extends ServiceImpl<AlbumInfoMapper, AlbumInfo
 
     private final IMessageInfoService messageInfoService;
 
+    private final MusicInfoMapper musicInfoMapper;
+
+    private final SingerInfoMapper singerInfoMapper;
+
     /**
      * 分页获取专辑信息
      *
@@ -45,6 +48,30 @@ public class AlbumInfoServiceImpl extends ServiceImpl<AlbumInfoMapper, AlbumInfo
     @Override
     public IPage<LinkedHashMap<String, Object>> queryAlbumPage(Page<AlbumInfo> page, AlbumInfo albumInfo) {
         return baseMapper.queryAlbumPage(page, albumInfo);
+    }
+
+    /**
+     * 获取专辑详情
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> queryAlbumDetail(Integer albumId) {
+        // 返回数据
+        LinkedHashMap<String, Object> result = new LinkedHashMap<String, Object>() {
+            {
+                put("album", null);
+                put("singer", null);
+                put("music", musicInfoMapper.selectMusicByAlbum(albumId));
+            }
+        };
+        // 专辑信息
+        AlbumInfo albumInfo = this.getById(albumId);
+        result.put("album", albumInfo);
+        // 歌手信息
+        result.put("singer", singerInfoMapper.selectById(albumInfo.getSingerId()));
+        return result;
     }
 
     /**

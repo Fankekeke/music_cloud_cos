@@ -25,6 +25,14 @@ public interface IAlbumInfoService extends IService<AlbumInfo> {
     IPage<LinkedHashMap<String, Object>> queryAlbumPage(Page<AlbumInfo> page, AlbumInfo albumInfo);
 
     /**
+     * 获取专辑详情
+     *
+     * @param albumId 专辑ID
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> queryAlbumDetail(Integer albumId);
+
+    /**
      * 新增专辑信息
      *
      * @param albumInfo 专辑信息

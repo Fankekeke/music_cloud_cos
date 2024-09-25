@@ -103,6 +103,24 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
     }
 
     /**
+     * 用户搜索
+     *
+     * @param key 参数
+     * @return 结果
+     */
+    @Override
+    public LinkedHashMap<String, Object> selSearchDetailList(String key) {
+        // 返回数据
+        return new LinkedHashMap<String, Object>() {
+            {
+                put("singer", singerInfoMapper.querySingerList(key));
+                put("music", baseMapper.queryMusicList(key));
+                put("album", albumInfoMapper.queryAlbumList(key));
+            }
+        };
+    }
+
+    /**
      * 根据专辑获取收录歌曲
      *
      * @param albumId 专辑ID

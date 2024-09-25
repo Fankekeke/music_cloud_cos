@@ -33,6 +33,14 @@ public interface IMusicInfoService extends IService<MusicInfo> {
     LinkedHashMap<String, Object> homeData();
 
     /**
+     * 用户搜索
+     *
+     * @param key 参数
+     * @return 结果
+     */
+    LinkedHashMap<String, Object> selSearchDetailList(String key);
+
+    /**
      * 根据专辑获取收录歌曲
      *
      * @param albumId 专辑ID

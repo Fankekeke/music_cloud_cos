@@ -28,6 +28,29 @@
         create_date desc
     </select>
 
+    <!-- 获取歌手信息信息 -->
+    <select id="querySingerList" resultType="java.util.LinkedHashMap">
+        select
+        id,
+        code,
+        name,
+        sex,
+        birthday,
+        images,
+        `identity`,
+        remark,
+        create_date
+        from
+        singer_info
+        where
+        1 = 1
+        <if test="key != null and key != ''">
+            AND name LIKE CONCAT('%',#{key},'%')
+        </if>
+        order by
+        create_date desc
+    </select>
+
     <!-- 获取首页歌手信息 -->
     <select id="queryHomeSingerList" resultType="java.util.LinkedHashMap">
         select
