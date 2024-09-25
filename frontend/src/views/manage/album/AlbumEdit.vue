@@ -45,7 +45,7 @@
               @preview="handlePreview"
               @change="picHandleChange"
             >
-              <div v-if="fileList.length < 8">
+              <div v-if="fileList.length < 1">
                 <a-icon type="plus" />
                 <div class="ant-upload-text">
                   Upload

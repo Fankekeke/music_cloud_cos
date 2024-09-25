@@ -175,11 +175,7 @@ export default {
         dataIndex: 'lastLoginTime'
       }, {
         title: '创建时间',
-        dataIndex: 'createTime'
-      }, {
-        title: '操作',
-        dataIndex: 'operation',
-        scopedSlots: {customRender: 'operation'}
+        dataIndex: 'createDate'
       }]
     }
   },

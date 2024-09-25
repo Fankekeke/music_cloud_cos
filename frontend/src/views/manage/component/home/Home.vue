@@ -7,11 +7,11 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月上报数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">用户数量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.monthNum }}
-                    <span style="font-size: 20px;margin-top: 3px">条</span>
+                    {{ titleData.userNum }}
+                    <span style="font-size: 20px;margin-top: 3px">人</span>
                   </a-col>
                 </a-row>
               </a-card>
@@ -19,11 +19,11 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本月报警数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">歌手数量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.monthAlertNum }}
-                    <span style="font-size: 20px;margin-top: 3px">条</span>
+                    {{ titleData.singerNum }}
+                    <span style="font-size: 20px;margin-top: 3px">人</span>
                   </a-col>
                 </a-row>
               </a-card>
@@ -31,11 +31,11 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年上报数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">歌曲数量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.yearNum }}
-                    <span style="font-size: 20px;margin-top: 3px">条</span>
+                    {{ titleData.musicNum }}
+                    <span style="font-size: 20px;margin-top: 3px">首</span>
                   </a-col>
                 </a-row>
               </a-card>
@@ -43,11 +43,11 @@
             <a-col :span="6">
               <a-card hoverable>
                 <a-row>
-                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">本年报警数量</a-col>
+                  <a-col :span="24" style="font-size: 13px;margin-bottom: 8px;font-family: SimHei">专辑数量</a-col>
                   <a-col :span="4"><a-icon type="arrow-up" style="font-size: 30px;margin-top: 3px"/></a-col>
                   <a-col :span="18" style="font-size: 28px;font-weight: 500;font-family: SimHei">
-                    {{ titleData.yearAlertNum }}
-                    <span style="font-size: 20px;margin-top: 3px">条</span>
+                    {{ titleData.albumNum }}
+                    <span style="font-size: 20px;margin-top: 3px">张</span>
                   </a-col>
                 </a-row>
               </a-card>
@@ -57,12 +57,12 @@
       </a-col>
     </a-row>
     <a-row style="margin-top: 15px" v-if="user.roleId == 74 || user.roleId == 76" :gutter="25">
-      <a-col :span="12">
-        <a-card hoverable :bordered="false" style="width: 100%">
-          <a-skeleton active v-if="loading" />
-          <apexchart  v-if="!loading" type="line" height="300" :options="chartOptions" :series="series"></apexchart>
-        </a-card>
-      </a-col>
+<!--      <a-col :span="12">-->
+<!--        <a-card hoverable :bordered="false" style="width: 100%">-->
+<!--          <a-skeleton active v-if="loading" />-->
+<!--          <apexchart  v-if="!loading" type="line" height="300" :options="chartOptions" :series="series"></apexchart>-->
+<!--        </a-card>-->
+<!--      </a-col>-->
       <a-col :span="12">
         <a-card hoverable :bordered="false" style="width: 100%">
           <a-skeleton active v-if="loading" />
@@ -128,10 +128,10 @@ export default {
       },
       bulletinList: [],
       titleData: {
-        monthNum: 0,
-        monthAlertNum: 0,
-        yearNum: 0,
-        yearAlertNum: 0
+        userNum: 0,
+        singerNum: 0,
+        musicNum: 0,
+        albumNum: 0
       },
       loading: false,
       series: [{
@@ -287,26 +287,26 @@ export default {
   },
   methods: {
     selectHomeData () {
-      this.$get('/cos/device-type/homeData').then((r) => {
-        let titleData = { userNum: r.data.userNum, deviceNum: r.data.deviceNum, historyNum: r.data.historyNum, alertNum: r.data.alertNum }
-        this.$emit('setTitle', titleData)
-        this.titleData.monthNum = r.data.monthNum
-        this.titleData.monthAlertNum = r.data.monthAlertNum
-        this.titleData.yearNum = r.data.yearNum
-        this.titleData.yearAlertNum = r.data.yearAlertNum
+      this.$get('/cos/music-info/homeData').then((r) => {
+        // let titleData = { userNum: r.data.userNum, deviceNum: r.data.deviceNum, historyNum: r.data.historyNum, alertNum: r.data.alertNum }
+        // this.$emit('setTitle', titleData)
+        this.titleData.userNum = r.data.userNum
+        this.titleData.singerNum = r.data.singerNum
+        this.titleData.musicNum = r.data.musicNum
+        this.titleData.albumNum = r.data.albumNum
 
         this.bulletinList = r.data.bulletin
         let values = []
-        if (r.data.numDayList !== null && r.data.numDayList.length !== 0) {
+        if (r.data.orderViewDayList !== null && r.data.orderViewDayList.length !== 0) {
           if (this.chartOptions1.xaxis.categories.length === 0) {
-            this.chartOptions1.xaxis.categories = r.data.numDayList.map(obj => { return obj.days })
+            this.chartOptions1.xaxis.categories = r.data.orderViewDayList.map(obj => { return obj.days })
           }
-          let itemData = { name: '统计', data: r.data.numDayList.map(obj => { return obj.count }) }
+          let itemData = { name: '统计', data: r.data.orderViewDayList.map(obj => { return obj.count }) }
           values.push(itemData)
           this.series1 = values
         }
-        this.series[0].data = r.data.alertDayList.map(obj => { return obj.count })
-        this.chartOptions.xaxis.categories = r.data.alertDayList.map(obj => { return obj.days })
+        // this.series[0].data = r.data.alertDayList.map(obj => { return obj.count })
+        // this.chartOptions.xaxis.categories = r.data.alertDayList.map(obj => { return obj.days })
 
         // if (r.data.putNumWithinDays !== null && r.data.putNumWithinDays.length !== 0) {
         //   if (this.chartOptions2.xaxis.categories.length === 0) {

@@ -70,7 +70,7 @@
               :file-list="fileMusicList"
               @change="musicHandleChange"
             >
-              <a-button> <a-icon type="upload" /> Upload </a-button>
+              <a-button> <a-icon type="upload" :disabled="fileMusicList.length < 1"/> Upload </a-button>
             </a-upload>
           </a-form-item>
         </a-col>
@@ -84,7 +84,7 @@
               @preview="handlePreview"
               @change="picHandleChange"
             >
-              <div v-if="fileList.length < 8">
+              <div v-if="fileList.length < 1">
                 <a-icon type="plus" />
                 <div class="ant-upload-text">
                   Upload
