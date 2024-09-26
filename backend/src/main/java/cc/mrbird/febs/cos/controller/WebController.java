@@ -327,6 +327,22 @@ public class WebController {
     }
 
     /**
+     * 根据用户歌曲收藏
+     *
+     * @param userId  用户ID
+     * @param musicId 歌曲ID
+     * @return 结果
+     */
+    @GetMapping("/addCollectByMusic")
+    public R addCollectByMusic(@RequestParam("userId") Integer userId, @RequestParam("musicId") Integer musicId) {
+        CollectInfo collectInfo = new CollectInfo();
+        collectInfo.setMusicId(musicId);
+        collectInfo.setUserId(userId);
+        collectInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        return R.ok(collectInfoMapper.insert(collectInfo));
+    }
+
+    /**
      * 根据用户ID和歌曲ID删除
      *
      * @param userId  用户ID
