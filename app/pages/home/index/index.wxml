@@ -92,12 +92,12 @@
     <view class='action'>
         <text class='icon-title text-orange'></text> 歌手
     </view>
-    <navigator hover-class='none' url="/pages/coupon/index/index">
+    <!-- <navigator hover-class='none' url="/pages/coupon/index/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
-    </navigator>
+    </navigator> -->
 </view>
 <view class="cu-list menu menu-avatar">
-    <view class="cu-item " wx:for="{{singerList}}" bindtap='postDetail' data-postId='{{ item.id }}'>
+    <navigator class="cu-item " wx:for="{{singerList}}" url="/pages/shop/index/index?shopId={{item.id}}">
         <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
         <view class='content'>
             <view class="text-titile">{{ item.name }}</view>
@@ -106,7 +106,7 @@
         <view class='action'>
             <!-- <view class='text-grey text-xs'>{{ item.identity }}</view> -->
         </view>
-    </view>
+    </navigator>
 </view>
 
 <!--专辑-->
@@ -114,12 +114,12 @@
     <view class='action'>
         <text class='icon-title text-orange'></text> 专辑
     </view>
-    <navigator hover-class='none' url="/pages/home/groom/index">
+    <!-- <navigator hover-class='none' url="/pages/home/groom/index">
         <view class='action' style="font-size: 27rpx;"> 更多 <view class='icon-right'></view> </view>
-    </navigator>
+    </navigator> -->
 </view>
 <view class="cu-list menu menu-avatar">
-    <view class="cu-item " wx:for="{{albumList}}">
+    <navigator class="cu-item " wx:for="{{albumList}}"  url="/pages/order/album/index?albumId={{item.id}}">
         <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
         <view class='content'>
             <view class="text-titile">{{ item.name }}</view>
@@ -128,5 +128,5 @@
         <view class='action'>
             <view class='text-grey text-xs'>{{ item.singerName }}</view>
         </view>
-    </view>
+    </navigator>
 </view>

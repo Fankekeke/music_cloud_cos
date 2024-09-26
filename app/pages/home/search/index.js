@@ -26,10 +26,15 @@ Page({
 		wx.navigateTo({
 			url: '/pages/shop/index/index?shopId='+e.currentTarget.dataset.shopid+''
 		});
-	},
+    },
+    albumDeatil(e) {
+        wx.navigateTo({
+			url: '/pages/order/album/index?albumId='+e.currentTarget.dataset.shopid+''
+		});
+    },
     postDetail(event) {
         wx.navigateTo({
-            url: '/pages/coupon/detail/index?postId=' + event.currentTarget.dataset.postid + ''
+            url: '/pages/shop/goods/details?musicId=' + event.currentTarget.dataset.postid + ''
         });
     },
     search() {

@@ -162,7 +162,7 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
         MusicInfo musicInfo = this.getById(musicId);
         // 歌曲收藏
         musicInfo.setCollectNum(collectInfoMapper.selectCount(Wrappers.<CollectInfo>lambdaQuery().eq(CollectInfo::getMusicId, musicId)));
-
+        result.put("music", musicInfo);
         // 歌手信息
         SingerInfo singerInfo = singerInfoMapper.selectById(musicInfo.getSingerId());
         result.put("singer", singerInfo);

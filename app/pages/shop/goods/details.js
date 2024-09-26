@@ -6,24 +6,99 @@ Page({
         TabbarBot: app.globalData.tabbar_bottom,
         swiperlist: [],
         goods: null,
+        singerInfo: null,
         commoditId: null,
+        collectFlag: false,
         evaluation: []
     },
     onLoad: function (options) {
-        this.setData({ commoditId: options.commoditId })
-        this.getGoodsDetail(options.commoditId)
-        this.getEvaluationByGoods(options.commoditId)
+        this.setData({ commoditId: options.musicId })
+        this.getGoodsDetail(options.musicId)
+        // this.getEvaluationByGoods(options.musicId)
+        wx.getStorage({
+            key: 'userInfo',
+            success: (res) => {
+                http.get('queryCollectStatus', { musicId: this.data.commoditId, userId: res.data.id }).then((r) => {
+                    this.setData({
+                        collectFlag: r.data
+                    })
+                })
+            }
+        })
     },
-    getGoodsDetail(commodityId) {
-        http.get('goodsDetail', { commodityId }).then((r) => {
+    getGoodsDetail(musicId) {
+        http.get('queryMusicDetail', { musicId }).then((r) => {
             this.setData({
-                swiperlist: r.images.split(','),
-                goods: r
+                swiperlist: r.music.images.split(','),
+                goods: r.music,
+                singerInfo: r.singer,
+                evaluation: r.evaluate
             })
         })
     },
-    getEvaluationByGoods(commodityId) {
-        http.get('getEvaluationByGoods', { commodityId }).then((r) => {
+    queryCollectStatus () {
+        wx.getStorage({
+            key: 'userInfo',
+            success: (res) => {
+                http.get('queryCollectStatus', { musicId: this.data.commoditId, userId: res.data.id }).then((r) => {
+                    this.setData({
+                        collectFlag: r.data
+                    })
+                })
+            },
+            fail: res => {
+                wx.showToast({
+                    title: '请先进行登录',
+                    icon: 'none',
+                    duration: 2000
+                })
+            }
+        })
+    },
+    addCollectByMusic() {
+        wx.getStorage({
+            key: 'userInfo',
+            success: (res) => {
+                http.get('addCollectByMusic', { musicId: this.data.commoditId, userId: res.data.id }).then((r) => {
+                    http.get('queryCollectStatus', { musicId: this.data.commoditId, userId: res.data.id }).then((r) => {
+                        this.setData({
+                            collectFlag: r.data
+                        })
+                    })
+                })
+            },
+            fail: res => {
+                wx.showToast({
+                    title: '请先进行登录',
+                    icon: 'none',
+                    duration: 2000
+                })
+            }
+        })
+    },
+    delCollectByMusic() {
+        wx.getStorage({
+            key: 'userInfo',
+            success: (res) => {
+                http.get('delCollectByMusic', { musicId: this.data.commoditId, userId: res.data.id }).then((r) => {
+                    http.get('queryCollectStatus', { musicId: this.data.commoditId, userId: res.data.id }).then((r) => {
+                        this.setData({
+                            collectFlag: r.data
+                        })
+                    })
+                })
+            },
+            fail: res => {
+                wx.showToast({
+                    title: '请先进行登录',
+                    icon: 'none',
+                    duration: 2000
+                })
+            }
+        })
+    },
+    getEvaluationByGoods(musicId) {
+        http.get('getEvaluationByGoods', { musicId }).then((r) => {
             this.setData({
                 evaluation: r.data
             })

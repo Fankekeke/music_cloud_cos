@@ -1,6 +1,6 @@
 <!--背景效果-->
 <image
-    src="https://raw.githubusercontent.com/vueComponent/ant-design-vue/master/components/vc-slick/assets/img/react-slick/abstract04.jpg"
+    src="http://127.0.0.1:9527/imagesWeb/{{shopInfo.images}}"
     mode="aspectFill" class="canui-head-vague"></image>
 <view class="canui-head-gradient"></view>
 
@@ -8,7 +8,7 @@
 <view class="canui-head-custom" style="top:{{StatusBar}}px;">
     <view class='canui-shop-title' bindtap='btnback'>
         <text class="icon-back"></text>
-        <txet>{{ shopInfo.userName }}</txet>
+        <txet>{{ shopInfo.name }}</txet>
     </view>
     <view class="canui-shop-synopsis text-sm">
         <text class="canui-xzwz">{{ shopInfo.remark ? shopInfo.remark : '暂无介绍' }}</text>
@@ -36,16 +36,9 @@
 
 <view style="margin-top:50px;margin-bottom:30px;">
     <van-row style="margin-top:{{StatusBar}}px;">
-        <van-col span="12">
-            <van-tag style="margin-left: 15px" type="success" size="medium" wx:if="{{collectFlag}}"
-                bindtap='collectPostElse'>
-                已关注</van-tag>
-            <van-tag style="margin-left: 15px" type="primary" size="medium" wx:if="{{!collectFlag}}"
-                bindtap='collectPost'>关注
-            </van-tag>
-        </van-col>
-        <van-col span="12">
-            <van-button plain round size="small" type="primary" style="float: right;margin-right: 15px" bindtap='chatUser'>私聊</van-button>
+        <van-col span="12" offset="12">
+            <van-button plain round size="small" type="danger" style="float: right;margin-right: 15px" wx:if="{{collectFlag}}" bindtap='collectPostElse'>取消关注</van-button>
+            <van-button plain round size="small" type="primary" style="float: right;margin-right: 15px" wx:if="{{!collectFlag}}" bindtap='collectPost'>关注</van-button>
         </van-col>
     </van-row>
 </view>
@@ -61,16 +54,30 @@
 </scroll-view>
 
 <!--商品列表-->
-<view class='nav-list canui-shop-goods-list'>
+<view class='nav-list canui-shop-goods-list' wx:if="{{ TabCur == 0 }}">
     <!-- <navigator wx:for="{{ShopList}}" wx:key="{{item.index}}" class="nav-li"  bindtap="postDetail" data-postId='{{item.id}}' open-type="navigate" hover-class='none' url="/pages/shop/goods/details?commoditId={{item.index}}"></navigator> -->
-    <navigator wx:for="{{ShopList}}" wx:key="{{item.index}}" class="nav-li" bindtap="postDetail"
+    <navigator wx:for="{{musicList}}" wx:key="{{item.index}}" class="nav-li" url="/pages/shop/goods/details?musicId={{item.id}}"
         data-postId='{{item.id}}'>
-        <image src="http://127.0.0.1:9527/imagesWeb/{{item.images}}" mode="aspectFill"></image>
+        <image src="http://127.0.0.1:9527/imagesWeb/{{item.images}}" mode="aspectFill" style="height: 130px"></image>
         <view class="nav-li-box">
-            <view class="nav-title canui-xzwz text-sm" style="font-size: 14px">{{item.title}}</view>
+            <view class="nav-title text-sm" style="font-size: 13px">{{item.name}}</view>
             <view class="shop-zx">
-                <text class="text-xs" style="font-size: 13px">{{item.tagNames}} </text>
-                <text class="text-gray text-sm" style="font-size: 12px;margin-left: 10px"> {{item.pageviews}}访问量</text>
+                <text class="text-xs text-gray" style="font-size: 12px">{{item.albumName}} </text>
+                <text class="text-gray text-sm" style="font-size: 12px;margin-left: 10px"> {{item.singerName}}</text>
+            </view>
+        </view>
+    </navigator>
+</view>
+<view class='nav-list canui-shop-goods-list' wx:if="{{ TabCur == 1 }}">
+    <!-- <navigator wx:for="{{ShopList}}" wx:key="{{item.index}}" class="nav-li"  bindtap="postDetail" data-postId='{{item.id}}' open-type="navigate" hover-class='none' url="/pages/shop/goods/details?commoditId={{item.index}}"></navigator> -->
+    <navigator wx:for="{{albumList}}" wx:key="{{item.index}}" class="nav-li"  url="/pages/order/album/index?albumId={{item.id}}"
+        data-postId='{{item.id}}'>
+        <image src="http://127.0.0.1:9527/imagesWeb/{{item.images}}" mode="aspectFill" style="height: 130px"></image>
+        <view class="nav-li-box">
+            <view class="nav-title text-sm" style="font-size: 13px">{{item.name}}</view>
+            <view class="shop-zx">
+                <text class="text-xs text-gray" style="font-size: 12px">{{item.singerName}} </text>
+                <!-- <text class="text-gray text-sm" style="font-size: 12px;margin-left: 10px"> {{item.code}}</text> -->
             </view>
         </view>
     </navigator>
