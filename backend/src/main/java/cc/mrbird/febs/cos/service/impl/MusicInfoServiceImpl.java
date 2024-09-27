@@ -43,6 +43,8 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
 
     private final CollectInfoMapper collectInfoMapper;
 
+    private final LyricsInfoMapper lyricsInfoMapper;
+
     private final IBulletinInfoService bulletinInfoService;
 
     /**
@@ -156,6 +158,7 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
                 put("music", null);
                 put("singer", null);
                 put("evaluate", Collections.emptyList());
+                put("lyrics", null);
             }
         };
         // 歌曲信息
@@ -166,6 +169,9 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
         // 歌手信息
         SingerInfo singerInfo = singerInfoMapper.selectById(musicInfo.getSingerId());
         result.put("singer", singerInfo);
+        // 歌词信息
+        LyricsInfo lyricsInfo = lyricsInfoMapper.selectOne(Wrappers.<LyricsInfo>lambdaQuery().eq(LyricsInfo::getMusicId, musicId));
+        result.put("lyrics", lyricsInfo);
         // 歌曲评价
         result.put("evaluate", evaluateInfoMapper.queryEvaluateByMusic(musicId));
         return result;
