@@ -125,7 +125,8 @@ export default {
           } else {
             return '- -'
           }
-        }
+        },
+        ellipsis: true
       }, {
         title: '密码',
         dataIndex: 'password',
@@ -171,11 +172,31 @@ export default {
           }
         }
       }, {
-        title: '上次登陆时间',
-        dataIndex: 'lastLoginTime'
+        title: '邮箱地址',
+        dataIndex: 'email',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        },
+        ellipsis: true
       }, {
-        title: '创建时间',
-        dataIndex: 'createDate'
+        title: '备注',
+        dataIndex: 'remark',
+        customRender: (text, row, index) => {
+          if (text !== null) {
+            return text
+          } else {
+            return '- -'
+          }
+        },
+        ellipsis: true
+      }, {
+        title: '注册时间',
+        dataIndex: 'createDate',
+        ellipsis: true
       }]
     }
   },
