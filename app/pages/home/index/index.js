@@ -177,7 +177,7 @@ getPostInfo() {
 	},
 	postDetail(event) {
 		wx.navigateTo({
-			url: '/pages/coupon/detail/index?postId='+event.currentTarget.dataset.postid+''
+			url: '/pages/shop/goods/details?musicId='+event.currentTarget.dataset.postid+''
 		});
 	},
 	swiperchange: function (e) {

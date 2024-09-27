@@ -5,11 +5,13 @@ Page({
         StatusBar: app.globalData.StatusBar + 6,
         TabbarBot: app.globalData.tabbar_bottom,
         TabCur: 0,scrollLeft:0,
-        SortMenu: [{id:0,name:"全部"}],
+        SortMenu: [{id:0,name:"单曲"},{id:1,name:"专辑"}],
         SortMenu1: [{id:0,name:"全部"},{id:1,name:"销量"},{id:2,name:"新品"},{id:3,name:"价格"}],
         ShopList: [],
         shopId: null,
         shopInfo: null,
+        musicList: [],
+        albumList: [],
         key: '',
         collectFlag: false
     },
@@ -25,15 +27,16 @@ Page({
         });
     },
     selShopDetail(shopId) {
-        http.get('getShopDetail', {userId: shopId}).then((r) => {
-			r.post.forEach(item => {
-                if (item.images != null) {
-                    item.images = item.images.split(',')[0]
-                }
-			});
+        http.get('querySingerDetail', {userId: shopId}).then((r) => {
+			// r.post.forEach(item => {
+            //     if (item.images != null) {
+            //         item.images = item.images.split(',')[0]
+            //     }
+			// });
             this.setData({
-                shopInfo: r.user,
-                ShopList: r.post
+                shopInfo: r.singer,
+                musicList: r.music,
+                albumList: r.album
             })
             this.queryCollectPost()
         })
@@ -51,10 +54,10 @@ Page({
     },
     tabSelect(e) {
         // this.commoditSort(this.data.shopId, e.currentTarget.dataset.id)
-        // this.setData({
-        //     TabCur: e.currentTarget.dataset.id,
-        //     scrollLeft: (e.currentTarget.dataset.id-1)*60
-        // })
+        this.setData({
+            TabCur: e.currentTarget.dataset.id,
+            scrollLeft: (e.currentTarget.dataset.id-1)*60
+        })
     },
     btnback: function () {
         wx.navigateBack();
@@ -71,7 +74,7 @@ Page({
         wx.getStorage({
           key: 'userInfo',
           success: (res) => {
-           http.get('queryFocusUser', { focusUserId: this.data.shopInfo.id, userId: res.data.id }).then((r) => {
+           http.get('querySubStatus', { singerId: this.data.shopInfo.id, userId: res.data.id }).then((r) => {
             this.setData({ collectFlag: r.data > 0 })
           })
           }
@@ -81,7 +84,7 @@ Page({
         wx.getStorage({
           key: 'userInfo',
           success: (res) => {
-           http.get('focusUser', { focusUserId: this.data.shopInfo.id, userId: res.data.id, type: 1 }).then((r) => {
+           http.get('addSubByMusic', { singerId: this.data.shopInfo.id, userId: res.data.id, type: 1 }).then((r) => {
             this.queryCollectPost()
           })
           }
@@ -91,7 +94,7 @@ Page({
         wx.getStorage({
           key: 'userInfo',
           success: (res) => {
-           http.get('focusUser', { focusUserId: this.data.shopInfo.id, userId: res.data.id, type: 2 }).then((r) => {
+           http.get('delSubByMusic', { singerId: this.data.shopInfo.id, userId: res.data.id, type: 2 }).then((r) => {
             this.queryCollectPost()
           })
           }

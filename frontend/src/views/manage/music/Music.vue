@@ -146,10 +146,6 @@ export default {
         dataIndex: 'name',
         ellipsis: true
       }, {
-        title: '总时长',
-        dataIndex: 'totalTime',
-        ellipsis: true
-      }, {
         title: '歌曲封面',
         dataIndex: 'images',
         customRender: (text, record, index) => {

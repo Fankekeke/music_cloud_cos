@@ -1,0 +1,69 @@
+<!-- 状态栏区域 -->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
+            <text class='icon-back'></text>
+            专辑
+        </navigator>
+    </view>
+</view>
+<view class="box" style="top: {{CustomBar}}px;">
+    <view class="canui-card-order margin-top">
+        <navigator class="canui-order-item bg-white" wx:for="{{ orderList }}" style="padding: 10px 15px" url="/pages/shop/goods/details?musicId={{item.id}}">
+            <view class="head-title-box" style="margin-bottom: 10px">
+                <van-row>
+                    <van-col span="16">
+                        <view style="font-size: 14px;color: red">
+                            {{ item.name != null ? item.name : '- -' }}
+                        </view>
+                    </van-col>
+                    <van-col span="8">
+                        <view class="cu-tag sm bg-green" style="float: right">{{ item.tag }}</view>
+                    </van-col>
+                </van-row>
+            </view>
+            <view>
+                <view class="cu-list menu menu-avatar">
+                    <view class="cu-item">
+                        <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
+                        <view class='content canui-xzwz tow' style="padding-left: 15px">
+                            <!-- {{ item.singerName }}
+                            <view style="font-size: 12px">食品</view> -->
+                        </view>
+                        <view class='action' style="padding-left: 15px">
+                            <view' style="font-size: 12px"> {{ item.singerName }}</view>
+                            <view class="text-xs text-right text-gray" style="font-size: 12px">{{ item.typeName }} </view>
+                        </view>
+                    </view>
+                </view>
+            </view>
+            <view>
+                <text class="text-right canui-text-left" style="font-size: 13px;line-height:20px">
+                    {{ item.content != null ? item.content : '- -' }}
+                </text>
+            </view>
+            <view class="order-price-box" style="margin-top: 10px;text-align: left">
+                <text style="font-size: 12px">所属专辑：{{ item.albumName }}</text>
+            </view>
+            <view class="grid col-4 flex justify-end order-btn-box" style="margin-top: 0px">
+                <!-- <view class='margin-tb-sm text-center'>
+                    <button class='cu-btn round line-red shadow' bindtap="edit" data-index="{{item.id}}">
+                        修改
+                    </button>
+                </view> -->
+                <!-- <view class='text-right'>
+                    <button class='cu-btn round line-red shadow' bindtap="removerPost" data-index="{{item.id}}">
+                        删除
+                    </button>
+                </view> -->
+            </view>
+        </navigator>
+        <view wx:if="{{ orderList.length === 0 }}">
+            <van-empty style="height: 400px;margin: 0 auto" description="无信息" />
+        </view>
+    </view>
+</view>
+
+<!-- <view class="canui-foor-fixed {{TabbarBot=='y'?'canui-tabbar-bottom':''}}">
+    <button class="cu-btn canui-color-gradual shadow-blur round lg" bindtap='add'><text class="icon-add"></text> 新增贴子</button>
+</view> -->

@@ -363,7 +363,7 @@ public class WebController {
      */
     @GetMapping("/querySubStatus")
     public R querySubStatus(@RequestParam("userId") Integer userId, @RequestParam("singerId") Integer singerId) {
-        return R.ok(subscriptionInfoMapper.selectCount(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, userId).eq(SubscriptionInfo::getSingerId, singerId)) > 0);
+        return R.ok(subscriptionInfoMapper.selectCount(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, userId).eq(SubscriptionInfo::getSingerId, singerId)));
     }
 
     /**
@@ -376,6 +376,22 @@ public class WebController {
     @GetMapping("/delSubByMusic")
     public R delSubByMusic(@RequestParam("userId") Integer userId, @RequestParam("singerId") Integer singerId) {
         return R.ok(subscriptionInfoMapper.delete(Wrappers.<SubscriptionInfo>lambdaQuery().eq(SubscriptionInfo::getUserId, userId).eq(SubscriptionInfo::getSingerId, singerId)));
+    }
+
+    /**
+     * 用户关注
+     *
+     * @param userId   用户ID
+     * @param singerId 歌手ID
+     * @return 结果
+     */
+    @GetMapping("/addSubByMusic")
+    public R addSubByMusic(@RequestParam("userId") Integer userId, @RequestParam("singerId") Integer singerId) {
+        SubscriptionInfo subscriptionInfo = new SubscriptionInfo();
+        subscriptionInfo.setSingerId(singerId);
+        subscriptionInfo.setUserId(userId);
+        subscriptionInfo.setCreateDate(DateUtil.formatDateTime(new Date()));
+        return R.ok(subscriptionInfoMapper.insert(subscriptionInfo));
     }
 
     /**

@@ -51,7 +51,7 @@
         </view>
     </view>
     <view class="cu-list menu menu-avatar" wx:if="{{ TabCur == 2 }}">
-        <view class="cu-item " wx:for="{{ albumList }}" bindtap='shopDeatil' data-shopId='{{ item.id }}'>
+        <view class="cu-item " wx:for="{{ albumList }}" bindtap='albumDeatil' data-shopId='{{ item.id }}'>
             <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.images }});"></view>
             <view class='content' style="padding-left: 15px">
                 <view class="canui-xzwz">{{ item.name }}</view>
