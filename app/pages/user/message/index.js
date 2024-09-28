@@ -40,6 +40,11 @@ Page({
       }
     })
   },
+  musicDetail(event) {
+    wx.navigateTo({
+			url: '/pages/order/play/index?musicId='+event.currentTarget.dataset.musicId
+		});
+  },
   messageDetail(event) {
     let takeUser = event.currentTarget.dataset.take
     let sendUser = event.currentTarget.dataset.send

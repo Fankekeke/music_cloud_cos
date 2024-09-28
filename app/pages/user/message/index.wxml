@@ -39,7 +39,7 @@
     </view>
 </view>
 <view class="cu-list menu menu-avatar">
-    <view class="cu-item " wx:for="{{messageList}}">
+    <view class="cu-item " wx:for="{{messageList}}" bindtap='musicDetail'  data-musicId='{{ item.id }}'>
         <view class="cu-avatar radius lg" style="background-image:url(http://127.0.0.1:9527/imagesWeb/{{ item.musicImages }});"></view>
         <view class='content'>
             <view class="text-titile" style="font-size: 14px">{{ item.musicName }}</view>

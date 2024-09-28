@@ -1,0 +1,54 @@
+<!-- 状态栏区域 -->
+<view class="cu-custom" style="height:{{CustomBar}}px;">
+    <view class="cu-bar fixed none-bg text-white bg-img" style="height:{{CustomBar}}px;padding-top:{{StatusBar}}px;">
+        <navigator class='action canui-head-title' open-type="navigateBack" hover-class="none">
+            <text class='icon-back'></text>
+            歌曲列表
+        </navigator>
+    </view>
+</view>
+<view class="box">
+    <view class='audioPlayer'>
+        <view class="poster">
+            <image src="{{curPoster}}" mode="aspectFitll" />
+        </view>
+        <view class="title">
+            <text>{{curTitle}}</text>
+        </view>
+        <view class='player'>
+            <view class='audioControls'>
+                <!-- 进度条 -->
+                <view class='slider'>
+                    <slider bindchange='sliderChange' block-color="#000000" activeColor='#000000'
+                        backgroundColor="#aeaeae" block-size="12" value='{{audioTime}}' />
+                </view>
+                <!-- 时间 -->
+                <view class='time'>
+                    <view class="timeLeft">{{showTime1}}</view>
+                    <view class="timeRight">{{showTime2}}</view>
+                </view>
+                <!-- 倍数弹窗 -->
+                <view>
+                    <view class="rate" bindtap='actionSheetTap'>{{playbackRate == 1? "倍数" : playbackRate+ "倍" }}</view>
+                    <action-sheet hidden='{{actionSheetHidden}}' bindchange='actionSheetChange'>
+                        <block wx:for='{{actionSheetRate}}'>
+                            <!-- 参数名字叫 rate -->
+                            <action-sheet-item class="rateNum" bindtap="selectRate" data-rate="{{item}}">
+                                {{item == 1? "正常" : item+ "倍" }}</action-sheet-item>
+                        </block>
+                        <action-sheet-cancel>取消</action-sheet-cancel>
+                    </action-sheet>
+                </view>
+            </view>
+        </view>
+        <!-- 播放控件 -->
+        <view class="btns">
+            <!-- <image mode="widthFix" class="previous" src="/images/previous.png" bindtap="previousFun"></image> -->
+            <label class="play">
+                <image mode="widthFix" src="{{ isPlayAudio == true ? '/images/zanting.png' : '/images/bofang.png'}}"
+                    bindtap="playAudio"></image>
+            </label>
+            <!-- <image mode="widthFix" class="next" src="/images/next.png" bindtap="nextFun"></image> -->
+        </view>
+    </view>
+</view>

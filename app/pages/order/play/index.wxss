@@ -1,0 +1,200 @@
+page {
+    padding-top: 50px;
+    padding-bottom:170rpx;
+}
+.cu-custom{
+    position: absolute;
+    top: 0px;
+    width: 100%;
+}
+.cu-custom .cu-bar{
+    padding-right:inherit;
+    background-image:linear-gradient(45deg, #ed1c24, #ed1c24);
+}
+.box{
+    position: absolute;
+    top: 64px;
+    width: 100%;
+}
+
+.canui-card-order{
+    padding:0 20rpx;
+}
+.canui-card-order .canui-order-item{
+    position: relative;
+    margin-bottom:30rpx;
+    padding:20rpx;
+}
+.head-title-box .icon-shop{
+    margin-right:10rpx;
+}
+.head-title-box .icon-right{
+    margin-left:5rpx;
+}
+.canui-order-item .cu-list.menu-avatar>.cu-item{
+    padding:0;
+    padding-left:110rpx;
+}
+.canui-order-item .cu-list.menu-avatar>.cu-item>.cu-avatar{
+    left:0rpx;
+}
+.canui-order-item .cu-list .cu-item .canui-xzwz{
+    -webkit-line-clamp:2;
+}
+.canui-order-item .cu-list.menu>.cu-item .content{
+    font-size:27rpx;
+    margin-right:40rpx;
+}
+.canui-order-item .cu-list.menu-avatar>.cu-item .action {
+    text-align:right;
+    margin-top:-10rpx;
+}
+.canui-order-item .cu-list.menu>.cu-item .action .text-price{
+    font-size:28rpx;
+}
+.canui-order-item .order-price-box{
+    text-align:right;
+    font-size:26rpx;
+}
+.canui-order-item .order-btn-box .margin-tb-sm{
+    margin-bottom:0;
+}
+.canui-order-item .order-btn-box .margin-tb-sm .cu-btn{
+    font-size:24rpx;
+}
+.canui-order-item .order-btn-box .margin-tb-sm .cu-btn[class*="line"]::after {
+    /*按钮边框大小*/
+    border: 3rpx solid currentColor;
+}
+.canui-order-item .order-btn-box .margin-tb-sm .line-gray{
+    color: #666;
+}
+.canui-order-item .order-btn-box .margin-tb-sm + .margin-tb-sm{
+    margin-left: 10rpx;
+}
+.canui-foor-fixed{
+    text-align:center;
+    bottom:20rpx;
+    background:#f1f1f1;
+}
+
+/* pages/audio/audio.wxss */
+.flex{
+    float: left;
+    width: 100%;
+    position: relative;
+  }
+  .audioPlayer{
+    width: 100%;
+    height: 114rpx;
+    box-sizing: border-box;
+    padding: 20rpx 30rpx;
+    /* background: #f4f4f4; */
+  }
+  /* 图片 */
+  .poster{
+    width: 680rpx;
+    height: 450rpx;
+    border-radius: 12rpx;
+    margin: 0 auto;
+  }
+  .poster image{
+    width: 100%;
+    height: 100%;
+  }
+  /* 标题 */
+  .title{
+    height: 50rpx;
+    line-height: 50rpx;
+    font-size: 36rpx;
+    margin-top: 80rpx;
+    padding: 0 0 0 10rpx;
+    color: #666;
+  
+  }
+  .player{
+    width: 100%;
+    height: 100%;
+    position: relative;
+    margin-top: 80rpx;
+  }
+  .audioBack{
+    width: 100%;
+    height: 100%;
+  }
+  .audioControls{
+    width: 100%;
+    height: 100rpx;
+    /* background: #f4f4f4; */
+    color: #666;
+    font-size: 6pt;
+    text-align: center;
+  }
+  /* .audioControls .bottom{
+    width: 84rpx;
+    height: 100%;
+    float: left;
+  }
+  .audioControls .bottom image{
+    margin-top: 15rpx;
+    margin-left: 15rpx;
+    width: 54rpx;
+    height: 54rpx;
+  } */
+  .audioControls .slider{
+    /* width: calc(100% - 84rpx); */
+    width: 100%;
+    height: 100%;
+    float: left;
+  }
+  .slider slider{
+    width: 95%;
+    margin-left: 4%;
+    margin-right: 0;
+  }
+  .audioControls .time{
+    width: calc(100% - 20rpx);
+    height: 30rpx;
+    position: absolute;
+    bottom: -10px;
+    right: 0px;
+    font-size: 16px;
+    color: #aeaeae;
+  }
+  .timeLeft{
+    float: left;
+    height: 20px;
+    line-height: 20px;
+  }
+  .timeRight{
+    float: right;
+    height: 20px;
+    line-height: 20px;
+  }
+  /* 倍数按钮 */
+  .rate{
+    font-size: 18px;
+    color: #7e7c7c;
+  }
+  .rateNum{
+    height: 60rpx;
+    line-height: 60rpx;
+  }
+  /* 播放控件 */
+  .btns{
+    height: 100rpx;
+    display: flex;
+    padding: 10rpx 40rpx;
+    justify-content: space-around;
+    align-items: center;
+    margin-top: 150rpx;
+  }
+  .btns image{
+    width: 100rpx;
+  }
+  
+  /* page{
+    background: #ffffff;
+  } */
+  
+  
