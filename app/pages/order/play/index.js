@@ -17,13 +17,7 @@ Page({
         audiosrc: "http://lcjl-uat-bucket.oss-cn-beijing.aliyuncs.com/2024/202402/20240223/2470caa499f44f598a7fcce3e00e35c8.mp3",
         poster: "https://cn.bing.com/th?id=OVFT.h-IoQ6aCPK-kCyaQhiEAeS&w=186&h=88&c=7&rs=2&qlt=80&pid=PopNow",
         title:"文章标题2"
-      },
-      {
-        audiosrc: 'https://tts-async-audio-sh-1300466766.cos.ap-shanghai.myqcloud.com/20240222%2F1309824489%2Fgz-64e0d0c4-300c-40a8-a544-01f9a7c111ed.mp3?q-sign-algorithm=sha1&q-ak=AKIDJXcaKs2w4vZw5zTCrHRM7dOwre9Xk9MJ&q-sign-time=1708590317%3B1709195117&q-key-time=1708590317%3B1709195117&q-header-list=host&q-url-param-list=&q-signature=3bf4929d4f8ef86b2bb478cbd4fe5e2948ae01d1',
-        poster: "https://cn.bing.com/th?id=OVFT.h-IoQ6aCPK-kCyaQhiEAeS&w=186&h=88&c=7&rs=2&qlt=80&pid=PopNow",
-        title:"文章标题3"
-      },
-      
+      }
     ],
     curPoster: "",
     curTitle: "",
