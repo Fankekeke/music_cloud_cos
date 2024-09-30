@@ -1,14 +1,34 @@
 const app = getApp();
 let http = require('../../../utils/request')
+const backgroundAudioManager = wx.getBackgroundAudioManager()
+let updateInterval
 Page({
+  formatTime(time) {
+    if (typeof time !== 'number' || time < 0) {
+      return time
+    }
+
+    const hour = parseInt(time / 3600, 10)
+    time %= 3600
+    const minute = parseInt(time / 60, 10)
+    time = parseInt(time % 60, 10)
+    const second = time
+
+    return ([hour, minute, second]).map(function (n) {
+      n = n.toString()
+      return n[1] ? n : '0' + n
+    }).join(':')
+  },
   data: {
     StatusBar: app.globalData.StatusBar,
     CustomBar: app.globalData.CustomBar,
     userInfo: null,
-    messageList: []
-  },
-  onLoad: function (options) {
-
+    messageList: [],
+    theme: 'light',
+    playing: false, // 播放状态
+    pause: false,
+    playTime: 0, // 播放时长
+    formatedPlayTime: '00:00:00' // 格式化后的播放时长
   },
   onShow() {
     this.isLogin()
@@ -42,7 +62,7 @@ Page({
   },
   musicDetail(event) {
     wx.navigateTo({
-			url: '/pages/order/play/index?musicId='+event.currentTarget.dataset.musicId
+			url: '/pages/order/music/index?musicId='+event.currentTarget.dataset.musicId
 		});
   },
   messageDetail(event) {
@@ -109,6 +129,122 @@ Page({
   submit: function () {
     wx.navigateTo({
       url: '/pages/scar/order/index'
+    })
+  },
+
+  onShow: function () {
+    if (!backgroundAudioManager.paused && backgroundAudioManager.paused !== undefined) {
+      this._enableInterval()
+      this.setData({
+        playing: true
+      })
+    }
+  },
+  play(event) {
+    let music = event.currentTarget.dataset.music
+    console.log(music)
+    backgroundAudioManager.title = music.musicName // 必填
+    backgroundAudioManager.epname = music.albumName // 必填
+    backgroundAudioManager.singer = music.singerName
+    backgroundAudioManager.coverImgUrl = 'http://127.0.0.1:9527/imagesWeb/' + music.musicImages
+
+    const that = this
+    if (that.data.pause) {
+      backgroundAudioManager.play()
+      this.setData({
+        playing: true,
+      })
+    } else {
+      that.setData({
+        playing: true,
+      }, () => {
+        // 设置src后会自动播放
+        backgroundAudioManager.src = 'http://127.0.0.1:9527/imagesWeb/' + music.fileUrl
+      })
+    }
+  },
+
+  seek(e) {
+    backgroundAudioManager.seek(e.detail.value)
+  },
+
+  pause() {
+    clearInterval(updateInterval)
+    backgroundAudioManager.pause()
+
+  },
+
+  stop() {
+    clearInterval(updateInterval)
+    backgroundAudioManager.stop()
+  },
+
+  _enableInterval() {
+    const that = this
+
+    function update() {
+      that.setData({
+        playTime: backgroundAudioManager.currentTime + 1,
+        formatedPlayTime: that.formatTime(backgroundAudioManager.currentTime + 1)
+      })
+    }
+    updateInterval = setInterval(update, 1000)
+  },
+
+  onUnload() {
+    clearInterval(updateInterval)
+  },
+
+  onLoad() {
+    this.isLogin()
+    this.setData({
+      theme: wx.getSystemInfoSync().theme || 'light'
+    })
+
+    if (wx.onThemeChange) {
+      wx.onThemeChange(({
+        theme
+      }) => {
+        this.setData({
+          theme
+        })
+      })
+    }
+    const that = this
+    // 监听播放事件
+    backgroundAudioManager.onPlay(() => {
+      // 刷新播放时间
+      that._enableInterval()
+      that.setData({
+        pause: false,
+      })
+    })
+
+    // 监听暂停事件
+    backgroundAudioManager.onPause(() => {
+      clearInterval(updateInterval)
+      that.setData({
+        playing: false,
+        pause: true,
+      })
+    })
+
+    backgroundAudioManager.onEnded(() => {
+      clearInterval(updateInterval)
+      that.setData({
+        playing: false,
+        playTime: 0,
+        formatedPlayTime: that.formatTime(0)
+      })
+    })
+
+    backgroundAudioManager.onStop(() => {
+      clearInterval(updateInterval)
+      that.setData({
+        playing: false,
+        playTime: 0,
+        formatedPlayTime: that.formatTime(0)
+      })
     })
   }
 });
