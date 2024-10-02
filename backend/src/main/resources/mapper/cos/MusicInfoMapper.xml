@@ -162,6 +162,42 @@
             days ASC
     </select>
 
+    <!-- 根据用户ID获取统计信息 -->
+    <select id="selectPostNumByDate" resultType="java.util.LinkedHashMap">
+        SELECT
+            DATE_FORMAT( spo.days, '%m-%d' ) AS days,
+            IFNULL(COUNT(mi.id), 0) AS count
+        FROM
+            (
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 0 DAY ) days UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 1 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 2 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 3 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 4 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 5 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 6 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 7 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 8 DAY ) UNION
+            SELECT
+            DATE_SUB( curdate(), INTERVAL + 9 DAY )) spo
+            LEFT JOIN music_info mi ON (
+            DATE_FORMAT( mi.create_date, '%Y-%m-%d' ) = DATE_FORMAT( spo.days, '%Y-%m-%d' )
+            )
+        GROUP BY
+            days
+        ORDER BY
+            days ASC
+    </select>
+
     <!-- 根据专辑获取收录歌曲 -->
     <select id="selectMusicByAlbum" resultType="java.util.LinkedHashMap">
         select music_info.id,

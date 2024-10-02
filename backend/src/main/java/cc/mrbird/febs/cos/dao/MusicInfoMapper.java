@@ -48,6 +48,14 @@ public interface MusicInfoMapper extends BaseMapper<MusicInfo> {
     List<LinkedHashMap<String, Object>> selectOrderViewWithinDays();
 
     /**
+     * 根据用户ID获取统计信息
+     *
+     * @param userId 用户ID
+     * @return 结果
+     */
+    List<LinkedHashMap<String, Object>> selectPostNumByDate(@Param("userId") Integer userId);
+
+    /**
      * 根据专辑获取收录歌曲
      *
      * @param albumId 专辑ID

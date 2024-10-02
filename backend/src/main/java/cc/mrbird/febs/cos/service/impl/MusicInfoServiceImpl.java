@@ -84,8 +84,8 @@ public class MusicInfoServiceImpl extends ServiceImpl<MusicInfoMapper, MusicInfo
 
         Integer year = DateUtil.thisYear();
         Integer month = DateUtil.thisMonth() + 1;
-//        // 本月发帖数量
-//        result.put("monthOrderNum", baseMapper.selectPostNumByDate(year, month));
+        // 本月
+        result.put("monthOrderNum", baseMapper.selectPostNumByDate(null));
 //        // 获取本月浏览量
 //        result.put("monthOrderTotal", baseMapper.selectViewNumByDate(year, month));
 //
