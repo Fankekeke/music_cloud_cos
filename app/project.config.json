@@ -42,7 +42,7 @@
   "compileType": "miniprogram",
   "libVersion": "2.14.1",
   "appid": "wx76a6577665633a86",
-  "projectname": "%E5%8D%9A%E5%AE%A2%E8%AE%BA%E5%9D%9B%E5%B0%8F%E7%A8%8B%E5%BA%8F",
+  "projectname": "在线音乐系统",
   "debugOptions": {
     "hidedInDevtools": []
   },
