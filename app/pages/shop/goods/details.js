@@ -32,9 +32,57 @@ Page({
         playing: false, // 播放状态
         pause: false,
         playTime: 0, // 播放时长
+        show: false,
+        value: 3,
+        remarks: '',
         formatedPlayTime: '00:00:00' // 格式化后的播放时长
     },
-    
+    evaluationSubmit: function () {
+        let that = this
+        if (this.data.remarks != '') {
+            wx.getStorage({
+                key: 'userInfo',
+                success: (res) => {
+                    http.post('addEvaluate', { musicId: this.data.commoditId, content: this.data.remarks, userId: res.data.id }).then((r) => {
+                        that.setData({
+                            show: false
+                        })
+                        wx.showToast({
+                            title: '评价成功',
+                            icon: 'success',
+                            duration: 1000
+                        })
+                        setTimeout(() => {
+                            this.getGoodsDetail(this.data.commoditId)
+                        }, 1000)
+                    })
+                },
+                fail: res => {
+                    wx.showToast({
+                        title: '请先进行登录',
+                        icon: 'none',
+                        duration: 2000
+                    })
+                }
+            })
+        } else {
+            wx.showToast({
+                title: '请填写评价内容',
+                icon: 'none',
+                duration: 1000
+            })
+        }
+    },
+    evaluation: function () {
+        this.setData({
+            show: true
+        })
+    },
+    onClose: function () {
+        this.setData({
+            show: false
+        })
+    },
     getGoodsDetail(musicId) {
         http.get('queryMusicDetail', { musicId }).then((r) => {
             this.setData({
@@ -245,7 +293,6 @@ Page({
           })
         }
       },
-    
       seek(e) {
         backgroundAudioManager.seek(e.detail.value)
       },
